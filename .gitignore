@@ -1,0 +1,15 @@
+# Xcode / XcodeGen
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+DerivedData/
+build/
+.DS_Store
+
+# SPM
+.swiftpm/
+.build/
+
+# Secrets (credentials are entered at runtime; never commit keys)
+*.p8
+Secrets.xcconfig
