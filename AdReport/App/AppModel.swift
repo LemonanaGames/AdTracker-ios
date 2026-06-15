@@ -98,28 +98,41 @@ final class AppModel {
         self.auth = adMobAuth
         self.syncService = SyncService(persistence: persistence, auth: adMobAuth)
         let accs = persistence.accounts()
-        self.accounts = accs.isEmpty ? Catalog.accounts : accs
-        self.accountID = accs.first?.id ?? Catalog.accounts[0].id
+        self.accounts = accs
+        self.accountID = accs.first?.id ?? ""
         self.goals = persistence.goals()
         self.prefs = persistence.prefs()
         self.repository = makeRepository()
     }
 
-    var account: Account { accounts.first { $0.id == accountID } ?? accounts.first ?? Catalog.accounts[0] }
+    private static let emptyAccount = Account(id: "", name: "No account", networkIDs: [], mult: 0, appIDs: [])
+    var account: Account { accounts.first { $0.id == accountID } ?? accounts.first ?? Self.emptyAccount }
+    var hasAccounts: Bool { !accounts.isEmpty }
+    /// The selected account has revenue to show (live cache or sample data).
+    var accountHasData: Bool { !accountID.isEmpty && !repository.combinedSeries(account: accountID).isEmpty }
 
     func reloadAccounts() {
         accounts = persistence.accounts()
+        if !accounts.contains(where: { $0.id == accountID }) { accountID = accounts.first?.id ?? "" }
         rebuildRepository()
+    }
+
+    func loadSampleData() {
+        persistence.loadSampleData()
+        reloadAccounts()
+        if accountID.isEmpty { accountID = accounts.first?.id ?? "" }
+        updateAmbient()
     }
 
     // MARK: Live data
     private func makeRepository() -> any RevenueRepository {
-        let mock = MockRevenueRepository(accounts: accounts)
+        let samples = accounts.filter(\.isSample)
+        let mock = MockRevenueRepository(accounts: samples)
         var cache: [String: [LiveReportRow]] = [:]
-        for a in accounts where persistence.hasCache(a.id) {
+        for a in accounts where !a.isSample && persistence.hasCache(a.id) {
             cache[a.id] = persistence.cachedRows(accountID: a.id)
         }
-        return cache.isEmpty ? mock : LiveRevenueRepository(accounts: accounts, mock: mock, cache: cache)
+        return LiveRevenueRepository(accounts: accounts, mock: mock, cache: cache)
     }
 
     func rebuildRepository() { repository = makeRepository() }
@@ -143,6 +156,7 @@ final class AppModel {
 
     /// Refresh ambient surfaces (Live Activity) and fire threshold alerts for the current account.
     func updateAmbient() {
+        guard accountHasData else { return }
         let r = WidgetData.forAccount(accountID, persistence: persistence)
         #if canImport(ActivityKit)
         if isPro { LiveActivityController.startOrUpdate(accountName: r.accountName, data: r.data) }

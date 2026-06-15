@@ -24,27 +24,39 @@ struct ConfigureSheet: View {
                     .font(.system(size: 14)).foregroundStyle(t.sec).padding(.horizontal, 4).padding(.bottom, 18)
 
                 sectionLabel("Google AdMob")
-                Card {
-                    Button {
-                        admobConnected = true
-                        if AdMobConfig.isConfigured { Task { await model.signInAdMob() } }
-                    } label: {
-                        HStack(spacing: 10) {
-                            googleGlyph
-                            Text(admobConnected ? "Connected" : "Sign in with Google")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundStyle(admobConnected ? t.text : Color(hex: "#202124"))
-                            if admobConnected {
-                                Image(systemName: Sym.check).font(.system(size: 16, weight: .bold)).foregroundStyle(t.pos)
+                if AdMobConfig.isConfigured {
+                    Card {
+                        Button {
+                            Task { await model.signInAdMob(); admobConnected = model.auth.isSignedIn }
+                        } label: {
+                            HStack(spacing: 10) {
+                                googleGlyph
+                                Text(admobConnected ? "Connected" : "Sign in with Google")
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .foregroundStyle(admobConnected ? t.text : Color(hex: "#202124"))
+                                if admobConnected {
+                                    Image(systemName: Sym.check).font(.system(size: 16, weight: .bold)).foregroundStyle(t.pos)
+                                }
                             }
+                            .frame(maxWidth: .infinity).padding(.vertical, 14)
+                            .background(admobConnected ? t.card2 : .white, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                         }
-                        .frame(maxWidth: .infinity).padding(.vertical, 14)
-                        .background(admobConnected ? t.card2 : .white, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
+                    Text("Sign in with the Google account that owns your AdMob reports. You may be asked twice — to sign in and to grant report access.")
+                        .font(.system(size: 12.5)).foregroundStyle(t.ter).padding(.horizontal, 6).padding(.top, 8).padding(.bottom, 20)
+                } else {
+                    Card {
+                        HStack(spacing: 10) {
+                            Image(systemName: "wrench.and.screwdriver.fill").foregroundStyle(t.ter)
+                            Text("Setup required").font(.system(size: 16, weight: .semibold)).foregroundStyle(t.sec)
+                            Spacer()
+                        }
+                        .frame(maxWidth: .infinity).padding(.vertical, 6)
+                    }
+                    Text("AdMob reporting needs a Google OAuth Client ID configured in the app (see SETUP.md). AppLovin works right now with just a Report Key below.")
+                        .font(.system(size: 12.5)).foregroundStyle(t.ter).padding(.horizontal, 6).padding(.top, 8).padding(.bottom, 20)
                 }
-                Text("Sign in with the Google account that owns your AdMob reports. You may be asked twice — to sign in and to grant report access.")
-                    .font(.system(size: 12.5)).foregroundStyle(t.ter).padding(.horizontal, 6).padding(.top, 8).padding(.bottom, 20)
 
                 sectionLabel("AppLovin Max")
                 Card {

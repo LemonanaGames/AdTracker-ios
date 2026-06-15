@@ -8,39 +8,53 @@ struct InsightsView: View {
     @State private var bp: Period = .last7
 
     var body: some View {
+        TabScaffold(title: "Insights") {
+            if !model.hasAccounts { ConnectEmptyView() }
+            else if !model.accountHasData { AccountEmptyView() }
+            else { content() }
+        }
+    }
+
+    /// Sum of `len` days ending `endOffset` days before the latest point (bounds-safe).
+    private func windowSum(_ arr: [DayPoint], endOffset: Int, len: Int) -> Double {
+        let end = arr.count - endOffset
+        let start = max(0, end - len)
+        guard end > start, end <= arr.count else { return 0 }
+        return arr[start..<end].reduce(0) { $0 + $1.value }
+    }
+
+    @ViewBuilder private func content() -> some View {
         let acc = model.account
         let repo = model.repository
         let combined = repo.combinedSeries(account: acc.id)
-        let n = combined.count
 
         let this30 = RevenueMath.sumN(combined, 30)
-        let prev30 = combined[(n - 60)..<(n - 30)].reduce(0) { $0 + $1.value }
+        let prev30 = windowSum(combined, endOffset: 30, len: 30)
         let d30 = prev30 == 0 ? 0 : (this30 - prev30) / prev30 * 100
         let this7 = RevenueMath.sumN(combined, 7)
-        let prev7 = combined[(n - 14)..<(n - 7)].reduce(0) { $0 + $1.value }
+        let prev7 = windowSum(combined, endOffset: 7, len: 7)
         let d7 = prev7 == 0 ? 0 : (this7 - prev7) / prev7 * 100
 
         let full = Array(combined.dropLast())
-        let best = full.max { $0.value < $1.value } ?? full[0]
+        let best = full.max { $0.value < $1.value } ?? combined.last
+            ?? DayPoint(date: Date(), value: 0, partial: false)
         let avg = this30 / 30
-        let daysInMonth = Calendar.utc.range(of: .day, in: .month, for: Catalog.mockToday)?.count ?? 30
+        let daysInMonth = Calendar.current.range(of: .day, in: .month, for: Date())?.count ?? 30
         let projMonth = avg * Double(daysInMonth)
 
         let split = acc.networkIDs.map { (net: Catalog.network($0), val: RevenueMath.sumN(repo.series(account: acc.id, network: $0), 30)) }
         let splitTotal = max(split.reduce(0) { $0 + $1.val }, 1)
         let topNet = split.max { $0.val < $1.val }?.net
 
-        TabScaffold(title: "Insights") {
-            VStack(alignment: .leading, spacing: 12) {
-                trendRow(this7: this7, d7: d7, this30: this30, d30: d30)
-                SmartInsightsView()
-                networkSplit(split, total: splitTotal)
-                highlights(best: best, avg: avg, topNet: topNet, projMonth: projMonth)
-                weekday(full)
-                breakdowns(acc: acc)
-            }
-            .padding(.horizontal, 16)
+        VStack(alignment: .leading, spacing: 12) {
+            trendRow(this7: this7, d7: d7, this30: this30, d30: d30)
+            SmartInsightsView()
+            networkSplit(split, total: splitTotal)
+            highlights(best: best, avg: avg, topNet: topNet, projMonth: projMonth)
+            weekday(full)
+            breakdowns(acc: acc)
         }
+        .padding(.horizontal, 16)
     }
 
     private func trendRow(this7: Double, d7: Double, this30: Double, d30: Double) -> some View {

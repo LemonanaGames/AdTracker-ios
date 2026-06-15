@@ -46,8 +46,8 @@ struct SettingsView: View {
                                 detail: t.label, first: true) {
                         withAnimation(.easeInOut) { themeStore.cycleDirection() }
                     }
-                    SettingsRow(symbol: Sym.dollar, iconBg: Color(hex: "#34A853"), title: "Currency", detail: "USD ($)") {}
-                    SettingsRow(symbol: Sym.gear, iconBg: Color(hex: "#8e8e93"), title: "About", detail: "v0.1") {}
+                    SettingsRow(symbol: Sym.dollar, iconBg: Color(hex: "#34A853"), title: "Currency", detail: "USD ($)")
+                    SettingsRow(symbol: Sym.gear, iconBg: Color(hex: "#8e8e93"), title: "About", detail: "v0.1")
                 }
 
                 Text("Ad Report · \(model.isPro ? "Pro" : "Free")")

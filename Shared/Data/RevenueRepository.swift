@@ -20,7 +20,10 @@ protocol RevenueRepository: Sendable {
 }
 
 extension RevenueRepository {
-    func account(_ id: String) -> Account { accounts.first { $0.id == id } ?? accounts[0] }
+    func account(_ id: String) -> Account {
+        accounts.first { $0.id == id } ?? accounts.first
+            ?? Account(id: id, name: "", networkIDs: [], mult: 0, appIDs: [])
+    }
 
     /// Totals over all of an account's apps for a period.
     func totals(account: String, period: Period) -> MetricValues {

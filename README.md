@@ -40,8 +40,11 @@ Run the **AdReport** scheme on an iOS 26 simulator.
 8. ✅ RevenueCat paywall + Pro gating (demo unlock until configured)
 9. ✅ Data-layer tests + docs
 
-**Builds/runs on mock data with zero credentials.** See [`SETUP.md`](SETUP.md) for Mac-side signing,
-App Group, RevenueCat, AdMob OAuth and AppLovin steps to unlock live data / IAP / AI.
+**Connect-first:** first launch is empty with a "Connect a network" prompt (plus a "Load sample data"
+button for a quick tour). Real data comes from the **AppLovin MAX** Reporting API (paste a Report Key —
+works immediately) and **Google AdMob** API (Sign in with Google — needs a one-time OAuth Client ID, see
+[`SETUP.md`](SETUP.md)). Sample accounts use deterministic mock data; real accounts show live data or an
+empty/loading state until synced.
 
-Data is source-agnostic behind `RevenueRepository`; real networks flow through `LiveRevenueRepository`
-without UI changes.
+Data is source-agnostic behind `RevenueRepository`; `LiveRevenueRepository` serves sample→mock,
+connected→live cache, otherwise empty — no UI changes needed.

@@ -7,28 +7,34 @@ struct DashboardView: View {
     @Environment(\.theme) private var t
 
     var body: some View {
+        TabScaffold {
+            if !model.hasAccounts { ConnectEmptyView() }
+            else if !model.accountHasData { AccountEmptyView() }
+            else { content() }
+        }
+    }
+
+    @ViewBuilder private func content() -> some View {
         let repo = model.repository
         let acc = model.account
         let combined = repo.combinedSeries(account: acc.id)
         let today = RevenueMath.valueToday(combined)
-        let yesterday = combined[combined.count - 2].value
+        let yesterday = combined.count >= 2 ? combined[combined.count - 2].value : 0
         let projToday = today / Catalog.nowFraction
         let deltaVsYest = yesterday == 0 ? 0 : (projToday - yesterday) / yesterday * 100
         let last7 = RevenueMath.lastN(combined, 7)
-        let goalPct = today / model.goals.daily
+        let goalPct = model.goals.daily == 0 ? 0 : today / model.goals.daily
 
-        TabScaffold {
-            VStack(alignment: .leading, spacing: 18) {
-                header(acc: acc)
-                hero(today: today, delta: deltaVsYest, projToday: projToday)
-                goalCard(today: today, goalPct: goalPct)
-                chartCard(combined: combined, last7: last7)
-                overview(combined: combined)
-                networks(acc: acc, today: today)
-                topApps(acc: acc)
-            }
-            .padding(.horizontal, 16)
+        VStack(alignment: .leading, spacing: 18) {
+            header(acc: acc)
+            hero(today: today, delta: deltaVsYest, projToday: projToday)
+            goalCard(today: today, goalPct: goalPct)
+            chartCard(combined: combined, last7: last7)
+            overview(combined: combined)
+            networks(acc: acc, today: today)
+            topApps(acc: acc)
         }
+        .padding(.horizontal, 16)
     }
 
     // MARK: account switcher + greeting

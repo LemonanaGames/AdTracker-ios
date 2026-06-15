@@ -41,26 +41,31 @@ extension Period {
     }
 }
 
-/// Reads live data from a cached snapshot of `LiveReportRow`s, falling back to the
-/// deterministic mock for accounts that haven't synced yet. Pure value type (Sendable):
-/// `AppModel` rebuilds it from the App-Group cache after each sync.
+/// The app's runtime repository. Sample accounts are served by the deterministic mock;
+/// real accounts are served from the synced live cache, or empty until they sync.
+/// Pure value type (Sendable): `AppModel` rebuilds it from the App-Group cache after each sync.
 struct LiveRevenueRepository: RevenueRepository {
     let accounts: [Account]
     let mock: MockRevenueRepository
     let cache: [String: [LiveReportRow]]      // accountID → rows
 
+    private func isSample(_ id: String) -> Bool { accounts.first { $0.id == id }?.isSample == true }
+
     func series(account: String, network: String) -> [DayPoint] {
-        guard let rows = cache[account] else { return mock.series(account: account, network: network) }
+        if isSample(account) { return mock.series(account: account, network: network) }
+        guard let rows = cache[account] else { return [] }
         return Self.dailySeries(rows.filter { $0.networkID == network })
     }
 
     func combinedSeries(account: String) -> [DayPoint] {
-        guard let rows = cache[account] else { return mock.combinedSeries(account: account) }
+        if isSample(account) { return mock.combinedSeries(account: account) }
+        guard let rows = cache[account] else { return [] }
         return Self.dailySeries(rows)
     }
 
     func appMetrics(account: String, period: Period) -> [AppMetric] {
-        guard let rows = cache[account] else { return mock.appMetrics(account: account, period: period) }
+        if isSample(account) { return mock.appMetrics(account: account, period: period) }
+        guard let rows = cache[account] else { return [] }
         let range = period.interval()
         let cal = Calendar.current
         let inRange = rows.filter { $0.date >= range.start && $0.date <= range.end }

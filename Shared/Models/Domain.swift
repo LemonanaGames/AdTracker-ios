@@ -47,8 +47,10 @@ struct Account: Identifiable, Hashable, Sendable {
     let id: String
     let name: String
     let networkIDs: [String]
-    let mult: Double         // mock revenue multiplier
+    let mult: Double         // mock revenue multiplier (sample accounts only)
     let appIDs: [String]
+    /// Sample/demo account — served by deterministic mock data instead of live reports.
+    var isSample: Bool = false
 }
 
 // MARK: - Series & metrics

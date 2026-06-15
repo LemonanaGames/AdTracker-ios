@@ -22,7 +22,13 @@ struct NetworkDetailView: View {
         let delta = RevenueMath.periodDelta(combined: model.repository.combinedSeries(account: acc.id), period: period)
         let days = Array(s.reversed().prefix(14))
 
-        PushScaffold(trailing: { IconPill(symbol: Sym.share) {} }) {
+        let shareText = "\(net.name) — \(Format.money(tot.earnings)) (\(period.label))"
+        PushScaffold(trailing: {
+            ShareLink(item: shareText) {
+                Image(systemName: Sym.share).font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(t.accent).frame(width: 38, height: 38).background(t.card, in: Circle())
+            }
+        }) {
             VStack(alignment: .leading, spacing: 18) {
                 HStack(spacing: 12) {
                     NetBadge(network: net, size: 44)

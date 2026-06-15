@@ -18,23 +18,30 @@ struct GoalsView: View {
     @Environment(\.theme) private var t
 
     var body: some View {
+        TabScaffold(title: "Goals") {
+            if !model.hasAccounts { ConnectEmptyView() }
+            else if !model.accountHasData { AccountEmptyView() }
+            else { content() }
+        }
+    }
+
+    @ViewBuilder private func content() -> some View {
         let combined = model.repository.combinedSeries(account: model.accountID)
         let stats = Self.periodStats(combined: combined, goals: model.goals)
-        let daily = stats[.daily]!
+        let daily = stats[.daily] ?? GoalStat(mode: .daily, current: 0, goal: model.goals.daily,
+                                              frac: Catalog.nowFraction, label: "Today")
 
-        TabScaffold(title: "Goals") {
-            VStack(alignment: .leading, spacing: 18) {
-                heroCard(daily)
-                streakCard
-                SectionTitle(title: "All goals", action: "Edit") { model.sheet = .editGoal(.daily) }
-                VStack(spacing: 12) {
-                    periodCard(stats[.weekly]!)
-                    periodCard(stats[.monthly]!)
-                    periodCard(stats[.yearly]!)
-                }
+        VStack(alignment: .leading, spacing: 18) {
+            heroCard(daily)
+            streakCard
+            SectionTitle(title: "All goals", action: "Edit") { model.sheet = .editGoal(.daily) }
+            VStack(spacing: 12) {
+                periodCard(stats[.weekly] ?? daily)
+                periodCard(stats[.monthly] ?? daily)
+                periodCard(stats[.yearly] ?? daily)
             }
-            .padding(.horizontal, 16)
         }
+        .padding(.horizontal, 16)
     }
 
     private func heroCard(_ d: GoalStat) -> some View {

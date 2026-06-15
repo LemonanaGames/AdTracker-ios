@@ -51,10 +51,14 @@ struct LiveDataTests {
         #expect(abs(a.values.ecpm - a.values.earnings / a.values.impressions * 1000) < 0.001)
     }
 
-    @Test("Falls back to mock when an account has no cache")
-    func fallback() {
-        let repo = LiveRevenueRepository(accounts: Catalog.accounts, mock: MockRevenueRepository(), cache: [:])
-        #expect(repo.combinedSeries(account: "main").count == Catalog.historyDays)
+    @Test("Sample accounts use mock; real accounts with no cache are empty")
+    func sampleVsEmpty() {
+        let sample = Account(id: "main", name: "Main", networkIDs: ["admob"], mult: 1, appIDs: ["tod"], isSample: true)
+        let real = Account(id: "r", name: "Real", networkIDs: ["admob"], mult: 1, appIDs: [])
+        let repo = LiveRevenueRepository(accounts: [sample, real],
+                                         mock: MockRevenueRepository(accounts: [sample]), cache: [:])
+        #expect(repo.combinedSeries(account: "main").count == Catalog.historyDays)  // sample → mock
+        #expect(repo.combinedSeries(account: "r").isEmpty)                          // real, no cache → empty
     }
 
     @Test("Period intervals are anchored to the day")

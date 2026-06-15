@@ -21,13 +21,17 @@ struct WidgetData: Sendable {
     static func forAccount(_ id: String?, persistence: Persistence = .shared)
         -> (data: WidgetData, accountName: String, goals: Goals, accent: String) {
         let goals = persistence.goals()
-        let accounts = persistence.accounts().isEmpty ? Catalog.accounts : persistence.accounts()
-        let acc = accounts.first { $0.id == id } ?? accounts.first ?? Catalog.accounts[0]
-        let mock = MockRevenueRepository(accounts: accounts)
-        let repo: any RevenueRepository = persistence.hasCache(acc.id)
-            ? LiveRevenueRepository(accounts: accounts, mock: mock, cache: [acc.id: persistence.cachedRows(accountID: acc.id)])
-            : mock
-        return (make(repo: repo, account: acc.id, goals: goals), acc.name, goals, "#5cb7c9")
+        let accounts = persistence.accounts()
+        let samples = accounts.filter(\.isSample)
+        let mock = MockRevenueRepository(accounts: samples)
+        var cache: [String: [LiveReportRow]] = [:]
+        for a in accounts where !a.isSample && persistence.hasCache(a.id) {
+            cache[a.id] = persistence.cachedRows(accountID: a.id)
+        }
+        let repo = LiveRevenueRepository(accounts: accounts, mock: mock, cache: cache)
+        let acc = accounts.first { $0.id == id } ?? accounts.first
+        return (make(repo: repo, account: acc?.id ?? "", goals: goals),
+                acc?.name ?? "Ad Report", goals, "#5cb7c9")
     }
 
     static func make(repo: any RevenueRepository, account: String, goals: Goals) -> WidgetData {

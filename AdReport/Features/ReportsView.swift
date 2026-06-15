@@ -8,6 +8,14 @@ struct ReportsView: View {
     @State private var mode: ReportMode = .daily
 
     var body: some View {
+        TabScaffold(title: "Reports") {
+            if !model.hasAccounts { ConnectEmptyView() }
+            else if !model.accountHasData { AccountEmptyView() }
+            else { content() }
+        }
+    }
+
+    @ViewBuilder private func content() -> some View {
         let combined = model.repository.combinedSeries(account: model.accountID)
         let (rows, total, label) = data(combined)
         let maxVal = max(rows.map(\.value).max() ?? 1, 1)
@@ -15,8 +23,7 @@ struct ReportsView: View {
                          ? RevenueMath.lastN(combined, 30).map(\.value)
                          : rows.reversed().map(\.value))
 
-        TabScaffold(title: "Reports") {
-            VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: 18) {
                 Segmented(options: ReportMode.allCases.map { ($0, $0.label) }, selection: $mode)
 
                 Card {
@@ -51,7 +58,6 @@ struct ReportsView: View {
                 }
             }
             .padding(.horizontal, 16)
-        }
     }
 
     private var liveTag: some View {

@@ -17,16 +17,17 @@ enum AppGroup {
     var admobConnected: Bool
     var appLovinConnected: Bool
     var order: Int
+    var isSample: Bool = false
 
     init(id: String, name: String, networkIDs: [String], appIDs: [String], mult: Double,
-         admobConnected: Bool, appLovinConnected: Bool, order: Int) {
+         admobConnected: Bool, appLovinConnected: Bool, order: Int, isSample: Bool = false) {
         self.id = id; self.name = name; self.networkIDs = networkIDs; self.appIDs = appIDs
         self.mult = mult; self.admobConnected = admobConnected
-        self.appLovinConnected = appLovinConnected; self.order = order
+        self.appLovinConnected = appLovinConnected; self.order = order; self.isSample = isSample
     }
 
     var domain: Account {
-        Account(id: id, name: name, networkIDs: networkIDs, mult: mult, appIDs: appIDs)
+        Account(id: id, name: name, networkIDs: networkIDs, mult: mult, appIDs: appIDs, isSample: isSample)
     }
 }
 
@@ -111,16 +112,7 @@ final class Persistence {
     }
 
     private func seedIfNeeded() {
-        let existing = (try? context.fetch(FetchDescriptor<AccountRecord>())) ?? []
-        if existing.isEmpty {
-            for (i, a) in Catalog.accounts.enumerated() {
-                context.insert(AccountRecord(id: a.id, name: a.name, networkIDs: a.networkIDs,
-                                             appIDs: a.appIDs, mult: a.mult,
-                                             admobConnected: a.networkIDs.contains("admob"),
-                                             appLovinConnected: a.networkIDs.contains("applovin"),
-                                             order: i))
-            }
-        }
+        // Connect-first: no demo accounts are seeded. Only defaults for goals/prefs.
         if ((try? context.fetch(FetchDescriptor<GoalRecord>()))?.isEmpty ?? true) {
             context.insert(GoalRecord(Catalog.defaultGoals))
         }
@@ -136,6 +128,19 @@ final class Persistence {
         return (try? context.fetch(d)) ?? []
     }
     func accounts() -> [Account] { accountRecords().map(\.domain) }
+    func hasAnyAccounts() -> Bool { !accountRecords().isEmpty }
+
+    /// Insert the demo studios (mock data) for trying out the app.
+    func loadSampleData() {
+        let existing = Set(accountRecords().map(\.id))
+        for (i, a) in Catalog.accounts.enumerated() where !existing.contains(a.id) {
+            context.insert(AccountRecord(id: a.id, name: a.name, networkIDs: a.networkIDs,
+                                         appIDs: a.appIDs, mult: a.mult,
+                                         admobConnected: false, appLovinConnected: false,
+                                         order: 100 + i, isSample: true))
+        }
+        try? context.save()
+    }
 
     func addAccount(name: String, networkIDs: [String], appIDs: [String]) -> Account {
         let order = (accountRecords().map(\.order).max() ?? -1) + 1

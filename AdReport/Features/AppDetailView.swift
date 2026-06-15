@@ -16,7 +16,13 @@ struct AppDetailView: View {
         let delta = baseDelta * (0.6 + Double(Int(app.hue) % 50) / 100)
         let units = RevenueMath.splitByAdUnit(tot, subtitle: app.name)
 
-        PushScaffold(trailing: { IconPill(symbol: Sym.share) {} }) {
+        let shareText = "\(app.name) — \(Format.money(tot.earnings)) (\(period.label))"
+        PushScaffold(trailing: {
+            ShareLink(item: shareText) {
+                Image(systemName: Sym.share).font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(t.accent).frame(width: 38, height: 38).background(t.card, in: Circle())
+            }
+        }) {
             VStack(alignment: .leading, spacing: 18) {
                 HStack(spacing: 13) {
                     AppIconTile(app: app, size: 52)
