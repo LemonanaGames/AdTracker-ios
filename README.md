@@ -39,6 +39,8 @@ Run the **AdReport** scheme on an iOS 26 simulator.
 7. ✅ On-device AI insights (Foundation Models, gated, rule-based fallback) + Siri/Spotlight App Intents
 8. ✅ RevenueCat paywall + Pro gating (demo unlock until configured)
 9. ✅ Data-layer tests + docs
+- ✅ First-run onboarding (welcome → connect) + connect-first empty states
+- ✅ GitHub Actions CI — build + Swift Testing on a macOS runner (`.github/workflows/ios.yml`, needs an Xcode 26 image)
 
 **Connect-first:** first launch is empty with a "Connect a network" prompt (plus a "Load sample data"
 button for a quick tour). Real data comes from the **AppLovin MAX** Reporting API (paste a Report Key —

@@ -36,9 +36,19 @@ struct AdReportApp: App {
     }
 }
 
-/// App entry point. (Onboarding gate will live here in a later phase.)
+/// App entry point — shows onboarding on first run, then the main app.
 struct RootView: View {
+    @Environment(AppModel.self) private var model
+    @AppStorage("didOnboard") private var didOnboard = false
+
     var body: some View {
-        MainTabView()
+        if didOnboard {
+            MainTabView()
+        } else {
+            OnboardingView(
+                onConnect: { didOnboard = true; model.sheet = .configure(adding: true) },
+                onSkip: { didOnboard = true })
+            .transition(.opacity)
+        }
     }
 }
