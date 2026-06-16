@@ -44,6 +44,26 @@ add `AdReportWatch` as an embedded dependency of the `AdReport` target (the
 ## 7. App icon
 `Resources/Assets.xcassets/AppIcon.appiconset` is an empty placeholder — drop in a 1024² icon.
 
+## TestFlight (automated via `.github/workflows/testflight.yml`)
+
+CI (`ios.yml`) builds + tests on every push. To ship to TestFlight, run the **Deploy to TestFlight**
+workflow manually (Actions tab → Run workflow). One-time setup:
+
+1. **App record:** create an app for bundle id `com.millionappz.adreport` in App Store Connect.
+2. **App Group:** create `group.com.millionappz.adreport` and assign it to the app IDs
+   (`…adreport`, `.widgets`; add `.watchkitapp*` if you ship the watch app).
+3. **App Store Connect API key:** Users & Access → Integrations → create a key (App Manager role).
+4. **Repo secrets** (Settings → Secrets and variables → Actions):
+   `APPLE_TEAM_ID`, `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8_BASE64`,
+   `DIST_CERT_P12_BASE64` (your Apple Distribution cert exported as .p12), `DIST_CERT_PASSWORD`.
+
+The workflow archives the `AdReport` scheme (app + widgets), auto-manages provisioning with the API
+key, exports an `.ipa`, and uploads it to TestFlight (build number = the run number). The watch app
+ships separately once embedded (see step 6 above).
+
+> I can't run this from Windows — it needs your signing secrets and the app record. Once the secrets
+> are in, it's a one-click deploy from the Actions tab.
+
 ## Known assumptions to verify
 - AdMob/AppLovin JSON shapes (parsing is defensive but column names should be confirmed).
 - Foundation Models (`InsightEngine`) only runs on Apple-Intelligence devices; otherwise the
