@@ -99,14 +99,19 @@ final class Persistence {
 
     init() {
         let schema = Schema([AccountRecord.self, GoalRecord.self, PrefsRecord.self, CachedRow.self])
-        // Prefer the App Group container (shared with widgets/watch); fall back to a local
-        // store if the entitlement isn't available in the current run context.
-        if let c = try? ModelContainer(for: schema,
-                                       configurations: ModelConfiguration(schema: schema,
-                                                                          groupContainer: .identifier(AppGroup.id))) {
+        // Use the App Group container (shared with widgets/watch) only when it's actually
+        // provisioned — otherwise SwiftData fatal-errors. Falls back to a local, then an
+        // in-memory store (e.g. unsigned CI simulator).
+        let groupAvailable = FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.id) != nil
+        let config = groupAvailable
+            ? ModelConfiguration(schema: schema, groupContainer: .identifier(AppGroup.id))
+            : ModelConfiguration(schema: schema)
+        if let c = try? ModelContainer(for: schema, configurations: config) {
             container = c
         } else {
-            container = try! ModelContainer(for: schema, configurations: ModelConfiguration(schema: schema))
+            container = try! ModelContainer(for: schema,
+                                            configurations: ModelConfiguration(schema: schema, isStoredInMemoryOnly: true))
         }
         seedIfNeeded()
     }
