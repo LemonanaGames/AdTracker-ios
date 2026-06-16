@@ -86,6 +86,9 @@ targets:
     sources:
       - path: AdReportWidgets
       - path: Shared
+        excludes:
+          - "Data/AdMobAuth.swift"      # uses UIApplication.shared (banned in extensions)
+          - "Data/SyncService.swift"    # app-only (BackgroundTasks); widget reads the cache
     entitlements:
       path: AdReportWidgets/AdReportWidgets.entitlements
       properties:
