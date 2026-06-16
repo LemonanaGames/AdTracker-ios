@@ -2,8 +2,8 @@ import AppIntents
 
 /// "How much did I make today?" — exposes today's revenue to Siri & Spotlight.
 struct TodayRevenueIntent: AppIntent {
-    static var title: LocalizedStringResource = "Today's Revenue"
-    static var description = IntentDescription("How much ad revenue you've earned so far today.")
+    static let title: LocalizedStringResource = "Today's Revenue"
+    static let description = IntentDescription("How much ad revenue you've earned so far today.")
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {

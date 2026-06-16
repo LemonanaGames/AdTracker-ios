@@ -4,8 +4,8 @@ import AppIntents
 
 /// Opens the app from the Control / Lock Screen control.
 struct OpenAdReportIntent: AppIntent {
-    static var title: LocalizedStringResource = "Open Ad Report"
-    static var openAppWhenRun = true
+    static let title: LocalizedStringResource = "Open Ad Report"
+    static let openAppWhenRun = true
     func perform() async throws -> some IntentResult { .result() }
 }
 
