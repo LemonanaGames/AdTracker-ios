@@ -46,7 +46,7 @@ final class SyncService {
         return true
     }
 
-    static let backgroundTaskID = "com.millionappz.adreport.refresh"
+    nonisolated static let backgroundTaskID = "com.millionappz.adreport.refresh"
 
     /// Background-refresh entry point: sync every syncable account, then reschedule.
     static func runBackground() async {
