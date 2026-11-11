@@ -1,0 +1,22 @@
+{
+  "gear": [
+    { "id": "gear_phone_1", "nameKey": "gear.phone_1.name", "costMinor": 0, "effects": { "quality": 8 }, "assetKey": "gear_phone", "enabled": true, "starter": true },
+    { "id": "gear_light_1", "nameKey": "gear.light_1.name", "costMinor": 12000, "effects": { "quality": 2 }, "assetKey": "gear_light", "enabled": true },
+    { "id": "gear_mic_1", "nameKey": "gear.mic_1.name", "costMinor": 35000, "effects": { "quality": 3 }, "assetKey": "gear_mic", "enabled": true,
+      "requirement": { "type": "creatorLevel", "min": 2 } },
+    { "id": "gear_editor_1", "nameKey": "gear.editor_1.name", "costMinor": 60000, "effects": { "editTimePermille": 900 }, "assetKey": "gear_editor", "enabled": false,
+      "requirement": { "type": "creatorLevel", "min": 2 }, "designerNotes": "Disabled until production timers exist (M2+)." },
+    { "id": "gear_camera_1", "nameKey": "gear.camera_1.name", "costMinor": 150000, "effects": { "quality": 7 }, "assetKey": "gear_camera", "enabled": true,
+      "requirement": { "type": "creatorLevel", "min": 4 } },
+    { "id": "gear_pc_1", "nameKey": "gear.pc_1.name", "costMinor": 250000, "effects": { "capacity": 1 }, "assetKey": "gear_laptop", "enabled": false,
+      "requirement": { "type": "creatorLevel", "min": 5 }, "designerNotes": "Disabled until production queue exists (M2+)." },
+    { "id": "gear_studio_1", "nameKey": "gear.studio_1.name", "costMinor": 900000, "effects": { "quality": 10 }, "assetKey": "gear_studio", "enabled": true,
+      "requirement": { "type": "act", "min": "act2" } },
+    { "id": "gear_light_2", "nameKey": "gear.light_2.name", "costMinor": 1200000, "effects": { "quality": 5 }, "assetKey": "gear_light", "enabled": true,
+      "requirement": { "type": "act", "min": "act2" } },
+    { "id": "gear_camera_2", "nameKey": "gear.camera_2.name", "costMinor": 3500000, "effects": { "quality": 11 }, "assetKey": "gear_camera", "enabled": true,
+      "requirement": { "type": "act", "min": "act3" } },
+    { "id": "gear_studio_2", "nameKey": "gear.studio_2.name", "costMinor": 9500000, "effects": { "queue": 1 }, "assetKey": "gear_studio", "enabled": false,
+      "requirement": { "type": "act", "min": "act3" }, "designerNotes": "Disabled until production queue exists (M2+)." }
+  ]
+}

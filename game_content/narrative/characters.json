@@ -1,0 +1,7 @@
+{
+  "characters": [
+    { "id": "maya", "nameKey": "npc.maya.name", "roleKey": "npc.maya.role", "assetKey": "npc_maya", "startRelationship": 60 },
+    { "id": "kai", "nameKey": "npc.kai.name", "roleKey": "npc.kai.role", "assetKey": "npc_kai", "startRelationship": 40 },
+    { "id": "noor", "nameKey": "npc.noor.name", "roleKey": "npc.noor.role", "assetKey": "npc_noor", "startRelationship": 30 }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "network.schema.json",
+  "title": "Networks file (balance/networks.json)",
+  "type": "object",
+  "required": ["networks"],
+  "properties": {
+    "networks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "nameKey", "colorHex", "assetKey", "unlock", "baseReach", "reachPerFollowerPermille", "viewToFollowPpm", "rpmMinor", "engagement", "curve", "formats"],
+        "properties": {
+          "id": { "enum": ["loop", "tubecast", "vibe"] },
+          "nameKey": { "type": "string" },
+          "colorHex": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+          "unlock": { "$ref": "requirement.schema.json" },
+          "baseReach": { "type": "integer", "minimum": 0 },
+          "reachPerFollowerPermille": { "type": "integer", "minimum": 0 },
+          "viewToFollowPpm": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+          "rpmMinor": { "type": "integer", "minimum": 0 },
+          "engagement": {
+            "type": "object",
+            "required": ["likeBps", "commentBps", "shareBps"],
+            "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 10000 }
+          },
+          "curve": {
+            "description": "Cumulative share of a post's views: [simHour, permille]. Must start at hour 0, be non-decreasing and end at 1000.",
+            "type": "array",
+            "items": { "type": "array", "prefixItems": [{ "type": "integer", "minimum": 0 }, { "type": "integer", "minimum": 0, "maximum": 1000 }] },
+            "minItems": 2
+          },
+          "formats": { "type": "array", "minItems": 1 }
+        }
+      }
+    }
+  }
+}

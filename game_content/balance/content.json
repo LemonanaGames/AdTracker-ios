@@ -1,0 +1,28 @@
+{
+  "niches": [
+    { "id": "comedy", "nameKey": "niche.comedy.name", "descKey": "niche.comedy.desc", "assetKey": "niche_comedy" },
+    { "id": "gaming", "nameKey": "niche.gaming.name", "descKey": "niche.gaming.desc", "assetKey": "niche_gaming" },
+    { "id": "lifestyle", "nameKey": "niche.lifestyle.name", "descKey": "niche.lifestyle.desc", "assetKey": "niche_lifestyle" }
+  ],
+  "topics": [
+    { "id": "topic_first_challenge", "nameKey": "topic.first_challenge.name", "niches": ["comedy", "gaming", "lifestyle"], "networks": ["loop"], "tutorial": true, "assetKey": "topic_challenge" },
+    { "id": "topic_prank_fail", "nameKey": "topic.prank_fail.name", "niches": ["comedy"], "networks": ["loop", "tubecast", "vibe"], "assetKey": "topic_comedy" },
+    { "id": "topic_skit_roommate", "nameKey": "topic.skit_roommate.name", "niches": ["comedy"], "networks": ["loop", "tubecast"], "assetKey": "topic_comedy" },
+    { "id": "topic_reaction", "nameKey": "topic.reaction.name", "niches": ["comedy", "gaming"], "networks": ["loop", "tubecast"], "assetKey": "topic_reaction" },
+    { "id": "topic_speedrun", "nameKey": "topic.speedrun.name", "niches": ["gaming"], "networks": ["loop", "tubecast"], "assetKey": "topic_gaming" },
+    { "id": "topic_setup_tour", "nameKey": "topic.setup_tour.name", "niches": ["gaming", "lifestyle"], "networks": ["loop", "tubecast", "vibe"], "assetKey": "topic_setup" },
+    { "id": "topic_ranked_rage", "nameKey": "topic.ranked_rage.name", "niches": ["gaming"], "networks": ["loop", "tubecast"], "assetKey": "topic_gaming" },
+    { "id": "topic_morning_routine", "nameKey": "topic.morning_routine.name", "niches": ["lifestyle"], "networks": ["loop", "tubecast", "vibe"], "assetKey": "topic_lifestyle" },
+    { "id": "topic_outfit_check", "nameKey": "topic.outfit_check.name", "niches": ["lifestyle"], "networks": ["loop", "vibe"], "assetKey": "topic_lifestyle" },
+    { "id": "topic_budget_meal", "nameKey": "topic.budget_meal.name", "niches": ["lifestyle", "comedy"], "networks": ["loop", "tubecast", "vibe"], "assetKey": "topic_food" },
+    { "id": "topic_dance_trend", "nameKey": "topic.dance_trend.name", "niches": ["comedy", "lifestyle"], "networks": ["loop"], "assetKey": "topic_challenge" }
+  ],
+  "hooks": [
+    { "id": "hook_question", "nameKey": "hook.question.name", "qualityBonus": 4, "commentBoostPermille": 1300, "assetKey": "hook_question" },
+    { "id": "hook_countdown", "nameKey": "hook.countdown.name", "qualityBonus": 3, "commentBoostPermille": 1000, "assetKey": "hook_countdown" },
+    { "id": "hook_reveal", "nameKey": "hook.reveal.name", "qualityBonus": 6, "commentBoostPermille": 1100,
+      "requirement": { "type": "creatorLevel", "min": 2 }, "assetKey": "hook_reveal" },
+    { "id": "hook_cold_open", "nameKey": "hook.cold_open.name", "qualityBonus": 8, "commentBoostPermille": 1000,
+      "requirement": { "type": "creatorLevel", "min": 4 }, "assetKey": "hook_cold_open" }
+  ]
+}

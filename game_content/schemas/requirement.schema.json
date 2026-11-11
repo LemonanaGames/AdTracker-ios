@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "requirement.schema.json",
+  "title": "Requirement",
+  "description": "One gate used by acts, network unlocks, gear, hooks, jobs, goals and story triggers.",
+  "type": "object",
+  "required": ["type"],
+  "properties": {
+    "type": { "enum": ["always", "followers", "engagement", "totalFollowers", "creatorLevel", "act", "stat", "gearOwned", "flag", "trust", "cash", "postViews", "anyOf", "allOf"] },
+    "network": { "enum": ["loop", "tubecast", "vibe"] },
+    "min": { "type": ["integer", "string"] },
+    "minBps": { "type": "integer", "minimum": 0 },
+    "minMinor": { "type": "integer", "minimum": 0 },
+    "stat": { "enum": ["postsPublished", "jobShifts", "lifetimeClaimedMinor", "tubecastPosts", "vibePosts"] },
+    "gearId": { "type": "string" },
+    "flag": { "type": "string" },
+    "of": { "type": "array", "items": { "$ref": "requirement.schema.json" }, "minItems": 1 }
+  }
+}

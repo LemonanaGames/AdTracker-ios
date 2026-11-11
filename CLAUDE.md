@@ -1,31 +1,46 @@
-# Ad Report — iOS App (project notes for Claude)
+# Influencer Simulator: Zero to Fame — project notes for Claude
 
-Ad-revenue tracker for AppLovin MAX + AdMob. SwiftUI, iOS 26 / watchOS 26, Swift 6.3, MV pattern
-(`@Observable`), XcodeGen. **This is a different product from the `Boker` alarm app** in the sibling folder.
+An original iOS-first Flutter idle life sim. **The source of truth is `docs/GDD_MASTER_v2.md`.** Status
+and next steps are in `docs/IMPLEMENTATION_PLAN.md`; update it after every milestone using the
+report format from GDD Part J (Implemented / Tested / Not implemented / Credentials / Risks / Next).
 
-## Source of truth for design
-`Design/project/app/*.jsx` — the Claude Design handoff prototypes. Recreate them pixel-perfectly in SwiftUI;
-match the visual output, not the prototype's internal structure.
+This repo used to hold a SwiftUI ad-revenue tracker ("AdReport"). It was removed when the project
+restarted. Don't resurrect it.
+
+## Rules
+
+- Deliver milestones **in order (M0→M7), one at a time**. M0+M1 are done; M2 is next.
+- **Never claim an SDK is installed or configured unless it's verified in the project.** There's no
+  Firebase, Singular, AdMob or RevenueCat yet. Don't invent keys or product IDs; ask for them.
+- No real platform names or logos (TikTok/YouTube/Instagram) in the UI or assets. Networks are
+  Loop / TubeCast / Vibe.
+- Placeholders must stay labelled as placeholders (`app/assets/asset_manifest.json`).
 
 ## Architecture
-- **Source-agnostic data**: all screens read `any RevenueRepository` from `AppModel`. `MockRevenueRepository`
-  (deterministic, ported from `data.jsx`) drives everything today; `LiveRevenueRepository` (AdMob + AppLovin)
-  plugs in later with no UI changes.
-- **Math lives in `RevenueMath`** (pure, ported 1:1 from `data.jsx`) — keep mock & live identical.
-- **Theme**: `Theme` token sets (Midnight/Graphite/Mist) + `ThemeStore` (`@Observable`), injected via
-  `@Environment(\.theme)`. Components read the theme from the environment.
-- **Navigation**: `AppModel` holds the selected tab, per-tab push paths, sheet/full-screen routes, account,
-  goals, prefs. `MainTabView` wires 5 `Tab`s, each its own `NavigationStack`.
 
-## Conventions
-- iOS 26 APIs used directly (Liquid Glass `glassEffect`, `Tab(value:)`, `@Entry`) — no pre-26 fallbacks.
-- Money/format via `Format.*`; never hand-roll currency strings.
-- Mock "today" is frozen to **2026-06-15** (`Catalog.mockToday`) to match the design's numbers.
+- `app/lib/domain` + `app/lib/core` are **pure Dart** (a test enforces this). All game rules live in
+  `GameEngine` (commands return `CommandResult`, and on error the state is the unchanged input).
+  The Riverpod `GameController` only forwards commands, persists, logs telemetry and ticks the clock.
+- Integers only: money in cents (`*Minor`), rates in ‰ / bps, energy and stress in milli-points.
+  Use `Format.*` for display and never hand-roll strings.
+- Determinism: `Seed.of([...])` + `Rng` (32-bit). Post stats are a pure function of elapsed sim
+  time, so crediting is idempotent. Keep it that way.
+- One `Requirement` DSL drives every gate and every "how to unlock" UI.
+- Content lives in `game_content/*.json` (bundled via `../game_content/` asset paths) and is
+  checked by `CatalogValidator`. New content files go into `GameCatalog.files` **and** `pubspec.yaml`.
+- UI strings go in ARB (`app/lib/app/l10n/app_en.arb`), content strings in
+  `game_content/localization/en.json`. Use directional insets (RTL-ready).
+- Persistence: Drift + `SaveCodec` versioned envelope. Schema change means bumping the version and
+  adding a migration plus a test.
 
-## Build / verify (Mac)
-`brew install xcodegen && xcodegen generate && open AdReport.xcodeproj` → run **AdReport** on iOS 26 sim;
-run `AdReportTests` for the data layer.
+## Commands (run in `app/`)
 
-## Phases (see plan)
-1 ✅ scaffold + design system + all screens on mock data · 2 persistence/credentials · 3 live AdMob+AppLovin ·
-4 widgets+Control · 5 Apple Watch · 6 notifications+Live Activity · 7 AI insights+App Intents · 8 paywall · 9 polish/tests.
+```
+flutter analyze && flutter test
+dart run tool/validate_content.dart
+dart run tool/simulate_lives.dart 45 180
+dart run build_runner build --delete-conflicting-outputs && flutter gen-l10n   # after DB/ARB changes
+SHOT_DIR=/tmp/shots flutter test tool/screenshots_test.dart                    # render screens to PNG
+```
+
+Formatting uses a 120-column page width (generated files are excluded).

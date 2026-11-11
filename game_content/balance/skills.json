@@ -1,0 +1,10 @@
+{
+  "skills": [
+    { "id": "creativity", "nameKey": "skill.creativity.name", "descKey": "skill.creativity.desc", "maxRank": 20, "effect": { "kind": "qualityTenths", "perRank": 12 }, "enabled": true, "assetKey": "skill_creativity" },
+    { "id": "editing", "nameKey": "skill.editing.name", "descKey": "skill.editing.desc", "maxRank": 20, "effect": { "kind": "qualityTenths", "perRank": 15 }, "enabled": true, "assetKey": "skill_editing" },
+    { "id": "on_camera", "nameKey": "skill.on_camera.name", "descKey": "skill.on_camera.desc", "maxRank": 20, "effect": { "kind": "qualityTenths", "perRank": 10, "formatTag": "personality" }, "enabled": true, "assetKey": "skill_on_camera" },
+    { "id": "storytelling", "nameKey": "skill.storytelling.name", "descKey": "skill.storytelling.desc", "maxRank": 20, "effect": { "kind": "viewsPermille", "perRank": 20, "formatTag": "longform" }, "enabled": true, "assetKey": "skill_storytelling" },
+    { "id": "negotiation", "nameKey": "skill.negotiation.name", "descKey": "skill.negotiation.desc", "maxRank": 20, "effect": { "kind": "none", "perRank": 0 }, "enabled": false, "assetKey": "skill_negotiation", "designerNotes": "Enabled with sponsor negotiations (M2)." },
+    { "id": "marketing", "nameKey": "skill.marketing.name", "descKey": "skill.marketing.desc", "maxRank": 20, "effect": { "kind": "reachPermille", "perRank": 15 }, "enabled": true, "assetKey": "skill_marketing" }
+  ]
+}

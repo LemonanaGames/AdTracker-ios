@@ -1,0 +1,76 @@
+{
+  "contentVersion": "0.1.0",
+  "time": {
+    "simSecondsPerRealSecond": 120,
+    "freeOfflineHours": 4,
+    "proOfflineHours": 24,
+    "minOfflineSummarySeconds": 60
+  },
+  "start": {
+    "cashMinor": 6000,
+    "energy": 100,
+    "audienceTrust": 50,
+    "integrity": 60,
+    "skillPoints": 0,
+    "gearIds": ["gear_phone_1"],
+    "homeId": "home_shared_room"
+  },
+  "energy": { "max": 100, "regenPerSimHour": 4 },
+  "burnout": { "max": 100, "recoveryPerSimHour": 1, "qualityPenaltyDivisor": 5 },
+  "progression": { "xpLevelBase": 100, "skillPointsPerLevel": 1, "maxLevel": 50 },
+  "publish": { "baseXp": 20, "qualityPointsPerXp": 5, "energyCost": 15, "burnoutGain": 4 },
+  "nicheFit": { "match": 26, "off": 18 },
+  "audienceFatigue": { "windowSimHours": 12, "penaltyPermillePerActivePost": 60, "minFactorPermille": 600 },
+  "viral": {
+    "multipliersPermille": [650, 950, 1150, 2000, 4000],
+    "weights": [10, 45, 30, 12, 3],
+    "viralFromIndex": 3
+  },
+  "trend": { "minPermille": 800, "maxPermille": 1450, "hotFromPermille": 1250 },
+  "uniqueReach": { "overlapPermille": 650 },
+  "followerMilestones": [100, 1000, 10000, 100000, 1000000],
+  "engagementWindowSimDays": 7,
+  "acts": [
+    { "id": "prologue", "nameKey": "act.prologue.name" },
+    {
+      "id": "act1", "nameKey": "act.act1.name",
+      "requirement": { "type": "anyOf", "of": [
+        { "type": "followers", "network": "loop", "min": 1000 },
+        { "type": "creatorLevel", "min": 3 }
+      ] }
+    },
+    {
+      "id": "act2", "nameKey": "act.act2.name",
+      "requirement": { "type": "anyOf", "of": [
+        { "type": "allOf", "of": [
+          { "type": "followers", "network": "loop", "min": 10000 },
+          { "type": "engagement", "network": "loop", "minBps": 400 }
+        ] },
+        { "type": "allOf", "of": [
+          { "type": "followers", "network": "tubecast", "min": 5000 },
+          { "type": "engagement", "network": "tubecast", "minBps": 350 }
+        ] },
+        { "type": "allOf", "of": [
+          { "type": "trust", "min": 75 },
+          { "type": "totalFollowers", "min": 7500 }
+        ] }
+      ] }
+    },
+    {
+      "id": "act3", "nameKey": "act.act3.name",
+      "requirement": { "type": "anyOf", "of": [
+        { "type": "followers", "network": "loop", "min": 100000 },
+        { "type": "followers", "network": "tubecast", "min": 100000 },
+        { "type": "followers", "network": "vibe", "min": 100000 }
+      ] }
+    },
+    {
+      "id": "act4", "nameKey": "act.act4.name",
+      "requirement": { "type": "anyOf", "of": [
+        { "type": "followers", "network": "loop", "min": 1000000 },
+        { "type": "followers", "network": "tubecast", "min": 1000000 },
+        { "type": "followers", "network": "vibe", "min": 1000000 }
+      ] }
+    }
+  ]
+}

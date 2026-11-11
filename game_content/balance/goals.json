@@ -1,0 +1,25 @@
+{
+  "goals": [
+    { "id": "goal_first_post", "titleKey": "goal.first_post", "route": "/create",
+      "requirement": { "type": "stat", "stat": "postsPublished", "min": 1 } },
+    { "id": "goal_collect", "titleKey": "goal.collect", "route": "/home",
+      "requirement": { "type": "stat", "stat": "lifetimeClaimedMinor", "min": 1 } },
+    { "id": "goal_work_shift", "titleKey": "goal.work_shift", "route": "/life",
+      "requirement": { "type": "anyOf", "of": [
+        { "type": "stat", "stat": "jobShifts", "min": 1 },
+        { "type": "gearOwned", "gearId": "gear_light_1" }
+      ] } },
+    { "id": "goal_buy_light", "titleKey": "goal.buy_light", "route": "/life/gear",
+      "requirement": { "type": "gearOwned", "gearId": "gear_light_1" } },
+    { "id": "goal_100_loop", "titleKey": "goal.loop_100", "route": "/create",
+      "requirement": { "type": "followers", "network": "loop", "min": 100 } },
+    { "id": "goal_level_2", "titleKey": "goal.level_2", "route": "/create",
+      "requirement": { "type": "creatorLevel", "min": 2 } },
+    { "id": "goal_unlock_tubecast", "titleKey": "goal.unlock_tubecast", "route": "/create",
+      "requirement": { "type": "act", "min": "act1" } },
+    { "id": "goal_first_tubecast", "titleKey": "goal.first_tubecast", "route": "/create",
+      "requirement": { "type": "stat", "stat": "tubecastPosts", "min": 1 } },
+    { "id": "goal_act2", "titleKey": "goal.act2", "route": "/social",
+      "requirement": { "type": "act", "min": "act2" } }
+  ]
+}

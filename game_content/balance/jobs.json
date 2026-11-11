@@ -1,0 +1,9 @@
+{
+  "jobs": [
+    { "id": "job_cafe", "nameKey": "job.cafe.name", "payMinor": 6000, "energyCost": 10, "burnoutGain": 2, "xp": 2, "assetKey": "job_cafe" },
+    { "id": "job_delivery", "nameKey": "job.delivery.name", "payMinor": 12000, "energyCost": 18, "burnoutGain": 3, "xp": 3, "assetKey": "job_delivery",
+      "requirement": { "type": "creatorLevel", "min": 2 } },
+    { "id": "job_freelance_edit", "nameKey": "job.freelance_edit.name", "payMinor": 30000, "energyCost": 20, "burnoutGain": 3, "xp": 8, "assetKey": "job_freelance",
+      "requirement": { "type": "creatorLevel", "min": 3 } }
+  ]
+}

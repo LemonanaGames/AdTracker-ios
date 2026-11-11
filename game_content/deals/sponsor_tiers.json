@@ -1,0 +1,11 @@
+{
+  "designNote": "Balance candidates from GDD C2. Designed values, not real market prices. Offers/contracts arrive in M2; M1 only previews requirements.",
+  "tiers": [
+    { "id": "seed", "nameKey": "deals.tier.seed", "network": "loop", "minFollowers": 1000, "min7dViews": 5000, "minEngagementBps": 300, "rewardMinMinor": 10000, "rewardMaxMinor": 30000 },
+    { "id": "micro", "nameKey": "deals.tier.micro", "network": "vibe", "minFollowers": 10000, "min7dViews": 25000, "minEngagementBps": 400, "rewardMinMinor": 50000, "rewardMaxMinor": 150000 },
+    { "id": "emerging", "nameKey": "deals.tier.emerging", "network": "tubecast", "minFollowers": 25000, "min7dViews": 50000, "minEngagementBps": 350, "rewardMinMinor": 100000, "rewardMaxMinor": 400000 },
+    { "id": "pro", "nameKey": "deals.tier.pro", "network": "loop", "minFollowers": 100000, "min7dViews": 500000, "minEngagementBps": 500, "rewardMinMinor": 400000, "rewardMaxMinor": 1200000 },
+    { "id": "major", "nameKey": "deals.tier.major", "network": "tubecast", "minFollowers": 1000000, "min7dViews": 2000000, "minEngagementBps": 400, "rewardMinMinor": 4000000, "rewardMaxMinor": 15000000 },
+    { "id": "luxury", "nameKey": "deals.tier.luxury", "network": "vibe", "minFollowers": 1000000, "min7dViews": 1000000, "minEngagementBps": 500, "rewardMinMinor": 3000000, "rewardMaxMinor": 12000000 }
+  ]
+}

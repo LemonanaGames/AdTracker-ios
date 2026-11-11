@@ -1,0 +1,762 @@
+{
+  "@@locale": "en",
+  "appTitle": "Influencer Simulator",
+  "tabHome": "Home",
+  "tabCreate": "Create",
+  "tabSocial": "Social",
+  "tabDeals": "Deals",
+  "tabLife": "Life",
+  "gotIt": "Got it",
+  "back": "Back",
+  "continueLabel": "Continue",
+  "go": "Go",
+  "seeAll": "See all",
+  "soon": "Soon",
+  "whatIsThis": "What is {term}?",
+  "@whatIsThis": {
+    "placeholders": {
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeReady": "Ready",
+  "badgeLocked": "Locked",
+  "badgeInProgress": "Growing",
+  "badgeDone": "Done",
+  "cash": "Cash",
+  "skillPoints": "Skill Points",
+  "energy": "Energy",
+  "stress": "Stress",
+  "trust": "Trust",
+  "integrity": "Integrity",
+  "followers": "Followers",
+  "views": "Views",
+  "likes": "Likes",
+  "comments": "Comments",
+  "shares": "Shares",
+  "engagement": "Engagement",
+  "newFollowers": "New followers",
+  "quality": "Quality",
+  "posts": "Posts",
+  "levelShort": "Creator Level {level}",
+  "@levelShort": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "welcomeTitle": "Become the Creator Everyone Knows",
+  "welcomeBody": "Start with a cheap phone and zero followers. Post, grow on three networks, make choices that matter — and decide what kind of famous you become.",
+  "startMyStory": "Start My Story",
+  "nameTitle": "What's your creator name?",
+  "nameLabel": "Creator name",
+  "handleLabel": "Handle",
+  "shuffleHandle": "Suggest another handle",
+  "nicheTitle": "What will you post about?",
+  "nicheBody": "All three are balanced. Pick the one that sounds most fun — you can post other topics too.",
+  "avatarTitle": "Pick your look",
+  "avatarOption": "Look {number}",
+  "@avatarOption": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "personaTitle": "Creator style",
+  "personaOnCamera": "On camera",
+  "personaFaceless": "Faceless",
+  "personaNote": "Style is cosmetic for now. Both play the same.",
+  "looksGood": "Looks Good",
+  "saveLoadError": "We couldn't read your previous save. It was kept safely on this device; you can start a new story.",
+  "createPost": "Create Post",
+  "latestPost": "Latest post",
+  "newStory": "New story",
+  "mayaName": "Maya",
+  "introMaya": "Every famous creator started with a first post. Let's make yours.",
+  "awayTitle": "While you were away",
+  "awayViews": "+{count} views",
+  "@awayViews": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "awayFollowers": "+{count} followers",
+  "@awayFollowers": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "awayIncome": "{amount} in earnings ready to collect",
+  "@awayIncome": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "awayCapped": "Progress counts for up to {hours} hours away.",
+  "@awayCapped": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "earningsReady": "Earnings ready",
+  "collect": "Collect",
+  "collected": "Collected {amount}!",
+  "@collected": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "totalFollowersAcross": "Total followers across networks",
+  "totalFollowersInfo": "This adds up your followers on Loop, TubeCast and Vibe. Some people follow you in more than one place, so it is not the number of different people. \"Estimated unique reach\" is our modeled guess of different people.",
+  "uniqueReach": "Estimated unique reach ≈ {count} (modeled)",
+  "@uniqueReach": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "nextGoal": "Next goal",
+  "allGoalsDone": "You finished every goal in this version. More chapters are coming!",
+  "engagementShort": "{percent} engagement",
+  "@engagementShort": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "chartLabel": "Views over time for this post",
+  "stepNetwork": "1 · Network",
+  "stepTopic": "2 · Topic",
+  "stepHook": "3 · Hook",
+  "stepGear": "4 · Gear",
+  "stepPreview": "5 · Preview",
+  "upgradeGear": "Upgrade",
+  "startHere": "Start here",
+  "yourNiche": "Your niche",
+  "offNiche": "Other niche",
+  "trending": "Trending today",
+  "qNicheFit": "Topic fit",
+  "qGear": "Gear",
+  "qHook": "Hook",
+  "qSkills": "Skills",
+  "qStory": "Story bonus",
+  "qStress": "Stress",
+  "expectedViews": "Expected views: {min}–{max}",
+  "@expectedViews": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "viralChance": "{percent}% chance to go viral (more views)",
+  "@viralChance": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "energyCost": "Uses {cost} energy (you have {current})",
+  "@energyCost": {
+    "placeholders": {
+      "cost": {
+        "type": "int"
+      },
+      "current": {
+        "type": "int"
+      }
+    }
+  },
+  "xpGain": "+{xp} XP",
+  "@xpGain": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "forecastNote": "Estimates, not promises: trends and luck change real results.",
+  "notEnoughEnergy": "Not enough energy. Energy refills by itself — ready in about {seconds}s, or work later.",
+  "@notEnoughEnergy": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "publish": "Publish",
+  "publishing": "Publishing…",
+  "published": "Published!",
+  "goingViral": "It is going viral!",
+  "qualityAndXp": "Quality {quality}/100 · +{xp} XP",
+  "@qualityAndXp": {
+    "placeholders": {
+      "quality": {
+        "type": "int"
+      },
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "keepsGrowing": "Your post keeps getting views for a while — check back soon.",
+  "tipFollowers": "Followers are people who want to see your next post.",
+  "backHome": "Back home",
+  "makeAnother": "Make another post",
+  "unlockHow": "How to unlock",
+  "views7d": "Views (7 days)",
+  "earnedHere": "Earned",
+  "followersInfo": "Followers are people who want to see your next post on this network. Each network has its own followers.",
+  "views7dInfo": "Views from posts you published in the last 7 game days on this network.",
+  "engagementInfo": "Engagement = how many people react to your posts. We count likes + comments + shares, divided by views, for posts from the last 7 game days.",
+  "earnedInfo": "Game cash this network has paid you so far. Collect it on Home.",
+  "noPostsYet": "No posts here yet.",
+  "postLine": "{views} views · {likes} likes · +{followers} followers",
+  "@postLine": {
+    "placeholders": {
+      "views": {
+        "type": "String"
+      },
+      "likes": {
+        "type": "String"
+      },
+      "followers": {
+        "type": "String"
+      }
+    }
+  },
+  "postMissing": "This post is no longer available.",
+  "chartCaption": "Bright line: views so far. Faded line: where views are heading.",
+  "whyQuality": "Why quality was {quality}",
+  "@whyQuality": {
+    "placeholders": {
+      "quality": {
+        "type": "int"
+      }
+    }
+  },
+  "luckNormal": "Luck: a normal day for this post.",
+  "luckViral": "Luck: this post got a viral boost!",
+  "dealsComingSoon": "Brand deals open in the next update. Here is what brands will look for, using your real stats.",
+  "dealsWhatBrandsCheck": "What brands check",
+  "dealsLaterTiers": "Bigger deals later",
+  "tierTitle": "{tier} deals on {network}",
+  "@tierTitle": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      },
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "tierReward": "Pays {min}–{max} in game cash",
+  "@tierReward": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "tierLine": "{followers} followers on {network}",
+  "@tierLine": {
+    "placeholders": {
+      "followers": {
+        "type": "String"
+      },
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "followersOn": "{network} followers",
+  "@followersOn": {
+    "placeholders": {
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "views7dOn": "{network} views (7 days)",
+  "@views7dOn": {
+    "placeholders": {
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "engagementOn": "{network} engagement",
+  "@engagementOn": {
+    "placeholders": {
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "networkLockedNote": "{network} is still locked.",
+  "@networkLockedNote": {
+    "placeholders": {
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "wellbeing": "How you are doing",
+  "jobs": "Jobs",
+  "growth": "Grow",
+  "gearShop": "Gear",
+  "skills": "Skills",
+  "energyInfo": "You need energy to post and work. It refills by itself ({perHour} per game hour) — even while the app is closed.",
+  "@energyInfo": {
+    "placeholders": {
+      "perHour": {
+        "type": "int"
+      }
+    }
+  },
+  "stressInfo": "Stress grows when you post or work a lot. High stress lowers post quality. It goes down by itself over time.",
+  "trustInfo": "How much your audience believes you. Higher trust turns more viewers into followers.",
+  "integrityInfo": "How true you stay to yourself. Some story choices change it, and later chapters care about it.",
+  "jobLine": "Earn {pay} · uses {energy} energy",
+  "@jobLine": {
+    "placeholders": {
+      "pay": {
+        "type": "String"
+      },
+      "energy": {
+        "type": "int"
+      }
+    }
+  },
+  "work": "Work",
+  "tooTired": "Too tired — energy refills over time.",
+  "tooTiredShort": "Tired",
+  "earned": "Earned {amount}",
+  "@earned": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "ownedCount": "{count} owned",
+  "@ownedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pointsToSpend": "{count} to spend",
+  "@pointsToSpend": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeSection": "Home",
+  "homeSharedRoom": "Shared room",
+  "homesLater": "Moving out arrives in a later update.",
+  "about": "About",
+  "aboutLine": "Content version {version}",
+  "@aboutLine": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "privacyLine": "This version keeps everything on this device. Nothing is uploaded and no ads or purchases are active.",
+  "xpProgress": "{current} / {total} XP",
+  "@xpProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "gearIntro": "Better gear makes better posts. Your gear adds +{quality} quality right now.",
+  "@gearIntro": {
+    "placeholders": {
+      "quality": {
+        "type": "int"
+      }
+    }
+  },
+  "gearOwnedEffect": "Adds +{quality} quality",
+  "@gearOwnedEffect": {
+    "placeholders": {
+      "quality": {
+        "type": "int"
+      }
+    }
+  },
+  "gearBeforeAfter": "Gear quality +{before} → +{after}",
+  "@gearBeforeAfter": {
+    "placeholders": {
+      "before": {
+        "type": "int"
+      },
+      "after": {
+        "type": "int"
+      }
+    }
+  },
+  "needMore": "Need {amount} more",
+  "@needMore": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "bought": "{item} is yours!",
+  "@bought": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "moreGearLater": "More gear (editing apps, laptops, studios) unlocks in later updates.",
+  "skillPointsCount": "{count} Skill Points",
+  "@skillPointsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "skillPointsHow": "You get 1 Skill Point each time you reach a new Creator Level.",
+  "rankOf": "Rank {rank} / {max}",
+  "@rankOf": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "plusOne": "+1",
+  "skillQuality": "+{value} quality",
+  "@skillQuality": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "skillLongViews": "+{value}% long-video views",
+  "@skillLongViews": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "skillReach": "+{value}% reach",
+  "@skillReach": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "skillNotYet": "Works once brand deals open",
+  "beforeAfter": "{before} → {after}",
+  "@beforeAfter": {
+    "placeholders": {
+      "before": {
+        "type": "String"
+      },
+      "after": {
+        "type": "String"
+      }
+    }
+  },
+  "whatDoYouDo": "What do you do?",
+  "decideLater": "Decide later",
+  "fxTrust": "Trust {delta}",
+  "@fxTrust": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "fxIntegrity": "Integrity {delta}",
+  "@fxIntegrity": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "fxCash": "Cash {amount}",
+  "@fxCash": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "fxXp": "+{xp} XP",
+  "@fxXp": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "fxRelationship": "{name} {delta}",
+  "@fxRelationship": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "fxTrendBoost": "Next {network} post: +{percent}% trend ({uses}×)",
+  "@fxTrendBoost": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "network": {
+        "type": "String"
+      },
+      "uses": {
+        "type": "int"
+      }
+    }
+  },
+  "fxQualityBonus": "Next {uses} posts: +{bonus} quality",
+  "@fxQualityBonus": {
+    "placeholders": {
+      "bonus": {
+        "type": "int"
+      },
+      "uses": {
+        "type": "int"
+      }
+    }
+  },
+  "celebrateLevelUp": "Level up! Creator Level {level} · +1 Skill Point",
+  "@celebrateLevelUp": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "celebrateUnlocked": "{network} unlocked! Try it in Create.",
+  "@celebrateUnlocked": {
+    "placeholders": {
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "celebrateMilestone": "{count} followers on {network}!",
+  "@celebrateMilestone": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "celebrateAct": "New chapter: {act}",
+  "@celebrateAct": {
+    "placeholders": {
+      "act": {
+        "type": "String"
+      }
+    }
+  },
+  "reqAlways": "Available",
+  "reqAnyOf": "Any one of these:",
+  "reqAllOf": "All of these:",
+  "reqFollowers": "{current} / {target} {network} followers",
+  "@reqFollowers": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      },
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "reqEngagement": "{network} engagement {current} / {target}",
+  "@reqEngagement": {
+    "placeholders": {
+      "network": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "reqTotalFollowers": "{current} / {target} total followers",
+  "@reqTotalFollowers": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "reqLevel": "Creator Level {current} / {target}",
+  "@reqLevel": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "reqAct": "Reach {act}",
+  "@reqAct": {
+    "placeholders": {
+      "act": {
+        "type": "String"
+      }
+    }
+  },
+  "reqGear": "Own {item}",
+  "@reqGear": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "reqFlag": "Unlocked by a story choice",
+  "reqTrust": "Trust {current} / {target}",
+  "@reqTrust": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "reqCash": "Cash {current} / {target}",
+  "@reqCash": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "reqPostViews": "A post with {target} views (best so far: {current})",
+  "@reqPostViews": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      },
+      "current": {
+        "type": "String"
+      }
+    }
+  },
+  "reqPosts": "Posts published {current} / {target}",
+  "@reqPosts": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "reqShifts": "Job shifts {current} / {target}",
+  "@reqShifts": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "reqCollect": "Collect your earnings once on Home",
+  "reqNetworkPosts": "{network} posts {current} / {target}",
+  "@reqNetworkPosts": {
+    "placeholders": {
+      "network": {
+        "type": "String"
+      },
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "reqGeneric": "{current} / {target}",
+  "@reqGeneric": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  }
+}

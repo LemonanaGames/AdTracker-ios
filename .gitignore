@@ -1,15 +1,15 @@
-# Xcode / XcodeGen
-*.xcodeproj
-*.xcworkspace
-xcuserdata/
-DerivedData/
-build/
+# OS / editors
 .DS_Store
+.idea/
+.vscode/
+*.swp
 
-# SPM
-.swiftpm/
-.build/
+# Local secrets (never commit)
+*.env
+.env*
+**/GoogleService-Info.plist
+**/google-services.json
+secrets/
 
-# Secrets (credentials are entered at runtime; never commit keys)
-*.p8
-Secrets.xcconfig
+# Tool output
+app/build/screenshots/

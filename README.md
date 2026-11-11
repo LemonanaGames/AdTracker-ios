@@ -1,52 +1,64 @@
-# Ad Report — ad-revenue tracker
+# Influencer Simulator: Zero to Fame
 
-iOS app (iPhone + Apple Watch + Widgets + Live Activities) showing app/game developers their
-**ad revenue** from **AppLovin MAX** and **Google AdMob** — daily/weekly/monthly/yearly reports,
-analytics, multi-account, goals.
+An original, iOS-first **Flutter** idle life simulator. You grow from an unknown creator with a cheap
+phone to a multi-network celebrity on three fictional networks: **Loop** (short videos),
+**TubeCast** (long videos) and **Vibe** (photos/lifestyle). Along the way you make choices that
+decide what kind of famous you become.
 
-Implemented from the Claude Design handoff in [`Design/`](Design/) (read `Design/README.md` and the
-`Design/project/app/*.jsx` prototypes — they are the pixel-perfect reference).
+> Working title; legal/ASO clearance pending. The networks are original inventions, with no real
+> platform names, logos or APIs.
 
-## Stack
-SwiftUI · iOS 26 / watchOS 26 · Swift 6.3 · MV pattern (`@Observable`) · XcodeGen.
+- **Product spec (source of truth):** [`docs/GDD_MASTER_v2.md`](docs/GDD_MASTER_v2.md)
+- **Plan, status, milestone report:** [`docs/IMPLEMENTATION_PLAN.md`](docs/IMPLEMENTATION_PLAN.md)
+- **Current milestone:** M0 + M1 (playable core) ✅. Next up: M2 (multi-network + sponsors).
 
-## Build (Mac + Xcode 26)
-```sh
-brew install xcodegen
-cd AdReport
-xcodegen generate
-open AdReport.xcodeproj
+## Repository layout
+
 ```
-Run the **AdReport** scheme on an iOS 26 simulator.
+app/                 Flutter app (iOS + Android runners)
+  lib/core/          clock, deterministic RNG, telemetry interface, feature flags   (pure Dart)
+  lib/domain/        models, game engine, post simulation, requirements, save codec  (pure Dart)
+  lib/data/          Drift/SQLite repository, asset/catalog loading
+  lib/app/           bootstrap, providers, controller, router, theme, l10n
+  lib/features/      onboarding, home, create, social, deals, life, stories
+  lib/ui/            shared widgets (cards, counters, charts, requirement checklists)
+  test/              domain, save, content, architecture and widget tests
+  tool/              validate_content, simulate_lives, screenshots
+game_content/        versioned JSON content: balance, narrative, deals, localization, schemas
+docs/                GDD, implementation plan, ADRs, balance, analytics, privacy, QA
+tools/               READMEs for the dev tooling
+```
 
-## Structure
-- `Shared/` — domain models, data layer, theme, UI components (shared with future widget/watch targets)
-  - `Models/` — `Domain.swift`, `NotificationPrefs.swift`
-  - `Data/` — `Catalog`, `Formatting`, `RevenueMath`, `RevenueRepository` (+ `MockRevenueRepository`)
-  - `Theme/` — `Theme` (3 directions), `ThemeStore`, `Color+Hex`, `Symbols`
-  - `UI/` — `Card`, `Charts`, `RingView`, `Controls`, `Badges`, `MetricViews`, `SettingsRows`, `DevicePreviews`
-- `AdReport/App/` — `AdReportApp`, `MainTabView`, `AppModel`, `Scaffold`
-- `AdReport/Features/` — every screen (Dashboard, Reports, Goals, Insights, Settings, Network/App detail, sheets…)
-- `AdReportTests/` — Swift Testing suite for the data/derivation layer
+## Run it (Mac)
 
-## Status — all phases implemented
-1. ✅ Scaffold + design system + all screens (mock data, 3 themes, Liquid Glass)
-2. ✅ SwiftData persistence (App Group) + Keychain credentials
-3. ✅ Live AdMob (OAuth) + AppLovin clients, cache-backed `LiveRevenueRepository`, background sync
-4. ✅ Home/Lock widgets (Gauge) + Control Center control
-5. ✅ Apple Watch app + complications (own scheme)
-6. ✅ Local notifications + ActivityKit Live Activity
-7. ✅ On-device AI insights (Foundation Models, gated, rule-based fallback) + Siri/Spotlight App Intents
-8. ✅ RevenueCat paywall + Pro gating (demo unlock until configured)
-9. ✅ Data-layer tests + docs
-- ✅ First-run onboarding (welcome → connect) + connect-first empty states
-- ✅ GitHub Actions CI — build + Swift Testing on a macOS runner (`.github/workflows/ios.yml`, needs an Xcode 26 image)
+Requirements: Flutter 3.47.x stable and Xcode with an iOS simulator.
 
-**Connect-first:** first launch is empty with a "Connect a network" prompt (plus a "Load sample data"
-button for a quick tour). Real data comes from the **AppLovin MAX** Reporting API (paste a Report Key —
-works immediately) and **Google AdMob** API (Sign in with Google — needs a one-time OAuth Client ID, see
-[`SETUP.md`](SETUP.md)). Sample accounts use deterministic mock data; real accounts show live data or an
-empty/loading state until synced.
+```sh
+cd app
+flutter pub get
+flutter run            # pick an iOS simulator
+```
 
-Data is source-agnostic behind `RevenueRepository`; `LiveRevenueRepository` serves sample→mock,
-connected→live cache, otherwise empty — no UI changes needed.
+## Checks
+
+```sh
+cd app
+flutter analyze
+flutter test
+dart run tool/validate_content.dart          # content cross-reference check
+dart run tool/simulate_lives.dart 45 180     # balance report (lives, real minutes)
+```
+
+After changing Drift tables or ARB strings, regenerate:
+`dart run build_runner build --delete-conflicting-outputs && flutter gen-l10n`.
+
+## Tuning the game
+
+All balance numbers, topics, gear, jobs, goals, acts and story events are JSON files in
+`game_content/`, so editing them needs no widget-code changes. Run the validator and the simulator
+after each edit, and record the results in `docs/economy_balance.md`.
+
+## Not in this build
+
+There are no ads, purchases, Firebase, analytics upload or cloud sync yet. Everything stays on the
+device. See the "Not implemented yet" list in the implementation plan.

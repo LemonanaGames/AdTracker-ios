@@ -1,0 +1,58 @@
+{
+  "networks": [
+    {
+      "id": "loop",
+      "nameKey": "network.loop.name",
+      "taglineKey": "network.loop.tagline",
+      "colorHex": "#FF6F78",
+      "assetKey": "network_loop",
+      "unlock": { "type": "always" },
+      "baseReach": 1200,
+      "reachPerFollowerPermille": 450,
+      "viewToFollowPpm": 45000,
+      "rpmMinor": 800,
+      "crossReachPermille": 100,
+      "engagement": { "likeBps": 400, "commentBps": 60, "shareBps": 35 },
+      "curve": [[0, 120], [1, 350], [2, 500], [6, 700], [12, 850], [24, 950], [36, 1000]],
+      "formats": [
+        { "id": "loop_short", "nameKey": "format.loop_short.name", "platformFitPermille": 1000, "tags": ["personality"] }
+      ]
+    },
+    {
+      "id": "tubecast",
+      "nameKey": "network.tubecast.name",
+      "taglineKey": "network.tubecast.tagline",
+      "colorHex": "#FFB547",
+      "assetKey": "network_tubecast",
+      "unlock": { "type": "act", "min": "act1" },
+      "baseReach": 1000,
+      "reachPerFollowerPermille": 700,
+      "viewToFollowPpm": 40000,
+      "rpmMinor": 2500,
+      "crossReachPermille": 100,
+      "engagement": { "likeBps": 300, "commentBps": 75, "shareBps": 20 },
+      "curve": [[0, 40], [2, 200], [12, 450], [48, 750], [96, 900], [168, 1000]],
+      "formats": [
+        { "id": "tubecast_long", "nameKey": "format.tubecast_long.name", "platformFitPermille": 1000, "tags": ["longform"] }
+      ]
+    },
+    {
+      "id": "vibe",
+      "nameKey": "network.vibe.name",
+      "taglineKey": "network.vibe.tagline",
+      "colorHex": "#4FC3F7",
+      "assetKey": "network_vibe",
+      "unlock": { "type": "act", "min": "act2" },
+      "baseReach": 800,
+      "reachPerFollowerPermille": 450,
+      "viewToFollowPpm": 40000,
+      "rpmMinor": 1200,
+      "crossReachPermille": 100,
+      "engagement": { "likeBps": 480, "commentBps": 45, "shareBps": 25 },
+      "curve": [[0, 80], [2, 300], [12, 700], [48, 1000]],
+      "formats": [
+        { "id": "vibe_photo", "nameKey": "format.vibe_photo.name", "platformFitPermille": 1000, "tags": ["aesthetic"] }
+      ]
+    }
+  ]
+}

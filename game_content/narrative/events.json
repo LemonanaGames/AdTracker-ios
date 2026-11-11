@@ -1,0 +1,55 @@
+{
+  "events": [
+    {
+      "id": "V01",
+      "act": "prologue",
+      "version": 1,
+      "oncePerLife": true,
+      "titleKey": "story.v01.title",
+      "sceneAssetKey": "scene_bedroom",
+      "trigger": { "type": "allOf", "of": [
+        { "type": "stat", "stat": "postsPublished", "min": 2 },
+        { "type": "postViews", "min": 500 }
+      ] },
+      "lines": [
+        { "speaker": "maya", "textKey": "story.v01.line1" },
+        { "speaker": "kai", "textKey": "story.v01.line2" }
+      ],
+      "choices": [
+        {
+          "id": "ride_trend",
+          "labelKey": "story.v01.choice.ride_trend",
+          "effects": {
+            "integrity": -4,
+            "relationships": { "kai": 5 },
+            "modifiers": [ { "kind": "trendBoostPermille", "value": 200, "uses": 1, "network": "loop" } ]
+          },
+          "deferredFlags": ["v01_rode_trend"],
+          "nextEventId": "V01_KAI_COLLAB"
+        },
+        {
+          "id": "make_it_yours",
+          "labelKey": "story.v01.choice.make_it_yours",
+          "effects": {
+            "audienceTrust": 5,
+            "xp": 15,
+            "modifiers": [ { "kind": "qualityBonus", "value": 3, "uses": 3 } ]
+          },
+          "deferredFlags": ["signature_series_unlocked"]
+        },
+        {
+          "id": "ask_maya",
+          "labelKey": "story.v01.choice.ask_maya",
+          "requirement": { "type": "cash", "minMinor": 10000 },
+          "effects": {
+            "cashMinor": -10000,
+            "relationships": { "maya": 8 }
+          },
+          "deferredFlags": ["duet_thumbnail_unlocked"]
+        }
+      ],
+      "analyticsTags": ["prologue", "first_viral"],
+      "designerNotes": "M1 stub: choice effects are real; callbacks (Kai collab, Signature Series) arrive with the story engine in M3."
+    }
+  ]
+}
