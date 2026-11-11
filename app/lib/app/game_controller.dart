@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:ui' show Locale;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/clock.dart';
@@ -12,9 +14,16 @@ import '../domain/model/avatar.dart';
 import '../domain/model/content_post.dart';
 import '../domain/model/ids.dart';
 import '../domain/model/life_state.dart';
+import '../domain/model/player_account.dart';
+import '../domain/notifications/notification_planner.dart';
 import '../domain/repositories/save_repository.dart';
 import 'game_session.dart';
+import 'l10n/app_localizations.dart';
 import 'providers.dart';
+import 'services/notification_copy.dart';
+import 'services/sound_service.dart';
+
+enum Haptic { light, medium, heavy, selection }
 
 /// Thin application layer: forwards commands to the pure [GameEngine],
 /// persists results, logs telemetry and drives the foreground clock.
@@ -40,7 +49,17 @@ class GameController extends Notifier<GameSession> {
       unawaited(_events.close());
     });
     if (ref.read(tickerEnabledProvider)) _startTicker();
-    return ref.read(initialSessionProvider);
+    final initial = ref.read(initialSessionProvider);
+    Future.microtask(_onSessionStart);
+    return initial;
+  }
+
+  /// A new foreground session: pending reminders are obsolete (the player is
+  /// here) and we learn when this player likes to play.
+  void _onSessionStart() {
+    unawaited(ref.read(notificationSchedulerProvider).cancelAll().catchError(_onSaveError));
+    final hour = ref.read(localHourProvider)(_clock.nowMs());
+    _updateAccount(state.account.withSessionHour(hour));
   }
 
   // ------------------------------------------------------------ clock
@@ -64,6 +83,31 @@ class GameController extends Notifier<GameSession> {
     _ticker?.cancel();
     tick();
     _save();
+    unawaited(_scheduleReminders());
+  }
+
+  /// Plans "smart" reminders from a projection of this life (see
+  /// [NotificationPlanner]) — only when the player opted in.
+  Future<void> _scheduleReminders() async {
+    final life = state.life;
+    if (life == null || state.account.notificationsOptIn != true) return;
+    try {
+      final planned = NotificationPlanner.plan(
+        engine: _engine,
+        life: life,
+        nowMs: _clock.nowMs(),
+        localHourOf: ref.read(localHourProvider),
+        sessionHours: state.account.sessionHours,
+      );
+      final l10n = lookupAppLocalizations(const Locale('en'));
+      final notes = [for (final n in planned) NotificationCopy.build(l10n, _engine.catalog, n)];
+      await ref.read(notificationSchedulerProvider).replaceAll(notes);
+      for (final n in planned) {
+        _telemetry.log('notification_scheduled', {'kind': n.kind.name});
+      }
+    } on Object catch (e) {
+      _onSaveError(e);
+    }
   }
 
   void onAppResumed() {
@@ -78,6 +122,42 @@ class GameController extends Notifier<GameSession> {
       _save();
     }
     if (ref.read(tickerEnabledProvider)) _startTicker();
+    _onSessionStart();
+  }
+
+  // --------------------------------------------------------- feedback
+
+  /// Sound + haptics, each honouring the player's settings.
+  void feedback(Sfx? sfx, [Haptic? haptic]) {
+    final a = state.account;
+    if (sfx != null && a.soundOn) ref.read(soundServiceProvider).play(sfx);
+    if (haptic != null && a.hapticsOn) {
+      unawaited(switch (haptic) {
+        Haptic.light => HapticFeedback.lightImpact(),
+        Haptic.medium => HapticFeedback.mediumImpact(),
+        Haptic.heavy => HapticFeedback.heavyImpact(),
+        Haptic.selection => HapticFeedback.selectionClick(),
+      });
+    }
+  }
+
+  void setSound(bool on) => _updateAccount(state.account.copyWith(soundOn: on));
+  void setHaptics(bool on) => _updateAccount(state.account.copyWith(hapticsOn: on));
+
+  /// Opt in/out of reminders. Opting in shows the OS prompt; the choice is
+  /// stored as granted only if the OS allows it.
+  Future<bool> setNotifications(bool on) async {
+    var granted = false;
+    if (on) granted = await ref.read(notificationSchedulerProvider).requestPermission();
+    _updateAccount(state.account.copyWith(notificationsOptIn: on && granted));
+    if (!(on && granted)) await ref.read(notificationSchedulerProvider).cancelAll();
+    _telemetry.log('notifications_opt_in', {'requested': on, 'granted': granted});
+    return granted;
+  }
+
+  void _updateAccount(PlayerAccount account) {
+    state = state.copyWith(account: account);
+    unawaited(_repo.saveAccount(account).catchError(_onSaveError));
   }
 
   // --------------------------------------------------------- commands
@@ -126,9 +206,7 @@ class GameController extends Notifier<GameSession> {
 
   void markTipSeen(String tipId) {
     if (state.account.seenTips.contains(tipId)) return;
-    final account = state.account.copyWith(seenTips: {...state.account.seenTips, tipId});
-    state = state.copyWith(account: account);
-    unawaited(_repo.saveAccount(account).catchError(_onSaveError));
+    _updateAccount(state.account.copyWith(seenTips: {...state.account.seenTips, tipId}));
   }
 
   // ---------------------------------------------------------- helpers

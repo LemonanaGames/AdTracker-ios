@@ -22,6 +22,14 @@
 10. Settings → Accessibility → Reduce Motion: counters jump, there are no scale springs, and the chart has no reveal animation.
 11. Largest Dynamic Type: no clipped primary actions (known risk: header pills).
 
+## Manual: feel & reminders (M1.5)
+
+12. Sounds: tap, publish whoosh, coin on Collect and jobs, ka-ching on gear, level-up arpeggio. The silent switch mutes them. Music from another app keeps playing.
+13. Haptics on buttons and celebrations. Turning off Sound or Vibration in Life → Settings stops them.
+14. First post → "Notify me" → iOS prompt → allow. Leave the app; within the offline cap a "post wrapped up" notification arrives with the same numbers the game shows on return. Nothing arrives between 22:00 and 09:00, and at most 3 per absence.
+15. Reopen the app: pending reminders are gone (check with a second absence).
+16. Deny permission: the toggle stays off and the explanation snackbar appears.
+
 ## Not yet covered
 
 Device performance profiling (60 fps), cold-start timing, contrast audit, Hebrew RTL pass, and

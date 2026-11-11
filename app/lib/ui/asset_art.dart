@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app/providers.dart';
 import '../app/theme.dart';
+import 'characters.dart';
 
 /// Resolves a content `assetKey` through the asset manifest. In M1 every
 /// entry is a vector placeholder (tinted icon tile); final art will set
@@ -50,10 +51,20 @@ class AssetArt extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final look = CharacterLooks.all[assetKey];
+    if (look != null) {
+      return Semantics(
+        label: semanticLabel,
+        image: semanticLabel != null,
+        excludeSemantics: true,
+        child: CharacterAvatar(look, size: size, circle: circle),
+      );
+    }
     final entry = ref.watch(assetManifestProvider)[assetKey];
     final color = entry == null ? AppColors.textMuted : AppColors.hex(entry.colorHex);
     final icon = icons[entry?.icon] ?? Icons.image_not_supported_rounded;
-    final radius = circle ? size / 2 : size * 0.28;
+    final radius = circle ? size / 2 : size * 0.3;
+    // Sticker-style tile: solid colour, light top-left sheen, dark glyph.
     return Semantics(
       label: semanticLabel,
       image: semanticLabel != null,
@@ -66,17 +77,23 @@ class AssetArt extends ConsumerWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [color.withValues(alpha: 0.38), color.withValues(alpha: 0.14)],
+            colors: [Color.lerp(color, Colors.white, 0.28)!, color, Color.lerp(color, Colors.black, 0.18)!],
+            stops: const [0, 0.55, 1],
           ),
-          border: Border.all(color: color.withValues(alpha: 0.45)),
+          boxShadow: [BoxShadow(color: Color.lerp(color, Colors.black, 0.55)!, offset: Offset(0, size * 0.06))],
         ),
         alignment: Alignment.center,
         child: entry?.initials != null
             ? Text(
                 entry!.initials!,
-                style: TextStyle(fontSize: size * 0.42, fontWeight: FontWeight.w800, color: color),
+                style: TextStyle(
+                  fontFamily: AppFonts.display,
+                  fontSize: size * 0.46,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.background,
+                ),
               )
-            : Icon(icon, size: size * 0.55, color: color),
+            : Icon(icon, size: size * 0.54, color: AppColors.background.withValues(alpha: 0.85)),
       ),
     );
   }

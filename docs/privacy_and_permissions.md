@@ -5,7 +5,8 @@
 - **No network access is needed or used.** No SDKs are installed: no Firebase, Singular, AdMob or RevenueCat.
 - All data lives in an on-device SQLite database (`influencer_simulator.sqlite` in the app's
   documents directory) and is included in the normal iOS device backup.
-- No permissions are requested: no ATT, photos, camera, notifications or tracking.
+- The only permission is **notifications**. It is requested once, in context, after the first post, and only if the player taps "Notify me" (see `notifications.md`). Reminders are local, with no push server and no token. There is no ATT, photos, camera or tracking.
+- Sound and vibration can be switched off in Life → Settings.
 - The account is a local UUID (`local-…`), not linked to any identity.
 - The in-app "About" section says so in plain language.
 

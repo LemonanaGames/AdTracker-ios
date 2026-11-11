@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/format.dart';
+import '../../app/game_controller.dart';
 import '../../app/providers.dart';
 import '../../app/router.dart';
+import '../../app/services/sound_service.dart';
 import '../../app/theme.dart';
 import '../../domain/content/game_catalog.dart';
 import '../../domain/engine/game_event.dart';
@@ -12,6 +14,9 @@ import '../../domain/engine/post_simulation.dart';
 import '../../domain/model/ids.dart';
 import '../../domain/model/life_state.dart';
 import '../../ui/asset_art.dart';
+import '../../ui/charts.dart';
+import '../../ui/chunky_button.dart';
+import '../../ui/motion.dart';
 import '../../ui/requirement_view.dart';
 import '../../ui/widgets.dart';
 import 'publish_result_sheet.dart';
@@ -86,15 +91,30 @@ class _CreateScreenState extends ConsumerState<CreateScreen> {
           const SizedBox(height: 4),
           Text(c.strings[net.taglineKey], style: t.bodySmall?.copyWith(color: AppColors.textMuted)),
           SectionHeader(l.stepTopic),
-          for (final topic in topics)
-            _TopicTile(
-              topic: topic,
-              selected: topic.id == topicId,
-              highlight: firstPost && topic.tutorial,
-              ownNiche: topic.niches.contains(life.avatar.nicheId),
-              hot: PostSimulation.trendPermille(c, life, topic.id, _network) >= c.economy.trendHotFromPermille,
-              onTap: () => setState(() => _topicId = topic.id),
+          SizedBox(
+            height: 184,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.none,
+              itemCount: topics.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 10),
+              itemBuilder: (_, i) {
+                final topic = topics[i];
+                return _TopicThumb(
+                  topic: topic,
+                  color: AppColors.hex(net.colorHex),
+                  selected: topic.id == topicId,
+                  highlight: firstPost && topic.tutorial,
+                  ownNiche: topic.niches.contains(life.avatar.nicheId),
+                  hot: PostSimulation.trendPermille(c, life, topic.id, _network) >= c.economy.trendHotFromPermille,
+                  onTap: () {
+                    ref.read(gameControllerProvider.notifier).feedback(Sfx.tap, Haptic.selection);
+                    setState(() => _topicId = topic.id);
+                  },
+                );
+              },
             ),
+          ),
           SectionHeader(l.stepHook),
           Wrap(
             spacing: Space.s,
@@ -141,11 +161,12 @@ class _CreateScreenState extends ConsumerState<CreateScreen> {
                 style: t.bodyMedium?.copyWith(color: AppColors.amber),
               ),
             ),
-          FilledButton.icon(
+          ChunkyButton(
+            label: l.publish,
+            icon: Icons.send_rounded,
+            color: AppColors.coral,
+            sfx: null, // the publish event plays its own whoosh
             onPressed: error == null ? () => _publish(draft) : null,
-            icon: const Icon(Icons.send_rounded),
-            label: Text(l.publish),
-            style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
           ),
         ],
       ),
@@ -167,9 +188,11 @@ class _CreateScreenState extends ConsumerState<CreateScreen> {
   }
 }
 
-class _TopicTile extends ConsumerWidget {
-  const _TopicTile({
+/// A topic as a vertical "video thumbnail" card.
+class _TopicThumb extends ConsumerWidget {
+  const _TopicThumb({
     required this.topic,
+    required this.color,
     required this.selected,
     required this.highlight,
     required this.ownNiche,
@@ -178,6 +201,7 @@ class _TopicTile extends ConsumerWidget {
   });
 
   final TopicDef topic;
+  final Color color;
   final bool selected;
   final bool highlight;
   final bool ownNiche;
@@ -188,56 +212,99 @@ class _TopicTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final c = ref.watch(catalogProvider);
     final l = context.l10n;
-    final t = Theme.of(context).textTheme;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: Space.s),
-      child: Semantics(
-        selected: selected,
-        button: true,
-        child: AppCard(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          borderColor: selected ? AppColors.violet : (highlight ? AppColors.coral : null),
-          onTap: onTap,
-          child: Row(
-            children: [
-              AssetArt(topic.assetKey, size: 38),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(c.strings[topic.nameKey], style: t.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
-                    const SizedBox(height: 2),
-                    Wrap(
-                      spacing: 6,
+    final d = context.reduceMotion ? Duration.zero : const Duration(milliseconds: 200);
+    return Semantics(
+      selected: selected,
+      button: true,
+      label: c.strings[topic.nameKey],
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedScale(
+          scale: selected ? 1 : 0.94,
+          duration: d,
+          curve: Curves.easeOutBack,
+          child: AnimatedContainer(
+            duration: d,
+            width: 122,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: selected ? AppColors.text : (highlight ? AppColors.coral : Colors.transparent),
+                width: 3,
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color.lerp(color, AppColors.violet, 0.35)!, Color.lerp(color, AppColors.background, 0.55)!],
+              ),
+              boxShadow: selected
+                  ? [BoxShadow(color: color.withValues(alpha: 0.45), blurRadius: 18, offset: const Offset(0, 6))]
+                  : null,
+            ),
+            child: Stack(
+              children: [
+                Center(child: Transform.rotate(angle: -0.08, child: AssetArt(topic.assetKey, size: 58))),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(10, 18, 10, 10),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(bottom: Radius.circular(15)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.black.withValues(alpha: 0), Colors.black.withValues(alpha: 0.75)],
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (highlight) _Tag(l.startHere, AppColors.coral),
-                        _Tag(ownNiche ? l.yourNiche : l.offNiche, ownNiche ? AppColors.mint : AppColors.textMuted),
-                        if (hot) _Tag(l.trending, AppColors.amber),
+                        Text(
+                          c.strings[topic.nameKey],
+                          maxLines: 2,
+                          style: const TextStyle(
+                            fontFamily: AppFonts.display,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15,
+                            height: 1.1,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          ownNiche ? l.yourNiche : l.offNiche,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: ownNiche ? AppColors.mint : AppColors.textMuted,
+                          ),
+                        ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              if (selected) const Icon(Icons.check_circle_rounded, color: AppColors.violet),
-            ],
+                if (highlight)
+                  Positioned(top: 8, left: 6, child: Sticker(l.startHere, color: AppColors.coral))
+                else if (hot)
+                  Positioned(
+                    top: 8,
+                    left: 6,
+                    child: Sticker(l.trending, color: AppColors.amber, icon: Icons.local_fire_department_rounded),
+                  ),
+                if (selected)
+                  const Positioned(
+                    top: 6,
+                    right: 6,
+                    child: Icon(Icons.check_circle_rounded, color: AppColors.text, size: 22),
+                  ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
-
-class _Tag extends StatelessWidget {
-  const _Tag(this.text, this.color);
-  final String text;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) => Text(
-    text,
-    style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color, fontWeight: FontWeight.w700),
-  );
 }
 
 class _PreviewCard extends ConsumerWidget {
@@ -263,16 +330,23 @@ class _PreviewCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(l.quality, style: t.labelLarge?.copyWith(color: AppColors.textMuted)),
-              const Spacer(),
-              AnimatedCount(
-                value: forecast.quality,
-                format: (v) => '$v',
-                style: t.displaySmall?.copyWith(fontWeight: FontWeight.w800),
+              QualityGauge(value: forecast.quality, size: 120),
+              const SizedBox(width: Space.m),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(l.quality, style: t.labelLarge?.copyWith(color: AppColors.textMuted)),
+                    Text(l.qualityOutOf, style: t.bodySmall?.copyWith(color: AppColors.textMuted)),
+                    const SizedBox(height: 6),
+                    Text(
+                      l.expectedViews(Format.count(forecast.typicalMinViews), Format.count(forecast.typicalMaxViews)),
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                ),
               ),
-              Text(' / 100', style: t.titleMedium?.copyWith(color: AppColors.textMuted)),
             ],
           ),
           const SizedBox(height: Space.s),
@@ -280,10 +354,6 @@ class _PreviewCard extends ConsumerWidget {
             if ((b[e.key] ?? 0) != 0 || e.key == QualityPart.skills)
               BreakdownRow(label: e.value, value: b[e.key] ?? 0, max: 40),
           const Divider(height: Space.l),
-          _Line(
-            icon: Icons.visibility_rounded,
-            text: l.expectedViews(Format.count(forecast.typicalMinViews), Format.count(forecast.typicalMaxViews)),
-          ),
           _Line(icon: Icons.local_fire_department_rounded, text: l.viralChance(forecast.viralChancePermille ~/ 10)),
           _Line(icon: Icons.bolt_rounded, text: l.energyCost(forecast.energyCost, life.energy)),
           _Line(icon: Icons.star_rounded, text: l.xpGain(forecast.xp)),

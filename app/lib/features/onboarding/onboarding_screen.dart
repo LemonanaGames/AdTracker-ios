@@ -7,6 +7,8 @@ import '../../app/providers.dart';
 import '../../app/theme.dart';
 import '../../domain/model/ids.dart';
 import '../../ui/asset_art.dart';
+import '../../ui/chunky_button.dart';
+import '../../ui/motion.dart';
 import '../../ui/widgets.dart';
 
 /// First-session beats 1–4 (GDD I4): welcome → name → niche → avatar.
@@ -123,7 +125,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     return _page(
       children: [
         const SizedBox(height: Space.xl),
-        const Center(child: AssetArt('scene_bedroom', size: 160)),
+        const _WelcomeHero(),
         const SizedBox(height: Space.xl),
         Text(l.welcomeTitle, style: t.headlineMedium, textAlign: TextAlign.center),
         const SizedBox(height: Space.m),
@@ -133,7 +135,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           textAlign: TextAlign.center,
         ),
       ],
-      action: FilledButton(onPressed: _next, child: Text(l.startMyStory)),
+      action: ChunkyButton(
+        label: l.startMyStory,
+        color: AppColors.coral,
+        icon: Icons.play_arrow_rounded,
+        onPressed: _next,
+      ),
     );
   }
 
@@ -173,9 +180,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           onChanged: (_) => setState(() => _handleEdited = true),
         ),
       ],
-      action: FilledButton(
+      action: ChunkyButton(
+        label: l.continueLabel,
         onPressed: _name.text.trim().isEmpty || _handle.text.trim().length < 2 ? null : _next,
-        child: Text(l.continueLabel),
       ),
     );
   }
@@ -219,7 +226,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             ),
           ),
       ],
-      action: FilledButton(onPressed: _niche == null ? null : _next, child: Text(l.continueLabel)),
+      action: ChunkyButton(label: l.continueLabel, onPressed: _niche == null ? null : _next),
     );
   }
 
@@ -269,7 +276,46 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         const SizedBox(height: Space.s),
         Text(l.personaNote, style: t.bodySmall?.copyWith(color: AppColors.textMuted)),
       ],
-      action: FilledButton(onPressed: _busy ? null : _finish, child: Text(l.looksGood)),
+      action: ChunkyButton(label: l.looksGood, color: AppColors.coral, onPressed: _busy ? null : _finish),
     );
   }
+}
+
+/// A little cast of creators and a "0 followers" sticker: the starting line.
+class _WelcomeHero extends StatelessWidget {
+  const _WelcomeHero();
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: 200,
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned(
+          left: 40,
+          top: 40,
+          child: Transform.rotate(angle: -0.18, child: const AssetArt('npc_maya', size: 92)),
+        ),
+        Positioned(
+          right: 40,
+          top: 46,
+          child: Transform.rotate(angle: 0.16, child: const AssetArt('npc_kai', size: 88)),
+        ),
+        Positioned(
+          top: 18,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40),
+              boxShadow: [BoxShadow(color: AppColors.violet.withValues(alpha: 0.5), blurRadius: 30)],
+            ),
+            child: const AssetArt('avatar_1', size: 128),
+          ),
+        ),
+        const Positioned(
+          bottom: 14,
+          child: Sticker('0 followers', color: AppColors.mint, icon: Icons.person_add_alt_1_rounded),
+        ),
+      ],
+    ),
+  );
 }

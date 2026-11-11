@@ -39,6 +39,17 @@ flutter pub get
 flutter run            # pick an iOS simulator
 ```
 
+## Play it in a browser (no Xcode needed)
+
+```sh
+cd app
+flutter build web --release --no-web-resources-cdn
+cd build/web && python3 -m http.server 8080      # open http://localhost:8080 (phone-sized window works best)
+```
+
+The web build is a preview for playtesting. Saves go to browser storage, and reminders are not
+scheduled there.
+
 ## Checks
 
 ```sh

@@ -261,16 +261,23 @@ class StatPill extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     label: label,
     child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(99)),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withValues(alpha: 0.25)),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 16, color: color),
-          const SizedBox(width: 4),
-          DefaultTextStyle.merge(
-            style: const TextStyle(fontWeight: FontWeight.w700),
-            child: value,
+          Icon(icon, size: 17, color: color),
+          const SizedBox(width: 6),
+          Flexible(
+            child: DefaultTextStyle.merge(
+              style: const TextStyle(fontFamily: AppFonts.display, fontWeight: FontWeight.w800, fontSize: 16),
+              child: FittedBox(fit: BoxFit.scaleDown, child: value),
+            ),
           ),
         ],
       ),

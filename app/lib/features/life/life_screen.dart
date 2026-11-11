@@ -9,6 +9,7 @@ import '../../app/theme.dart';
 import '../../domain/engine/game_event.dart';
 import '../../domain/engine/progression.dart';
 import '../../ui/asset_art.dart';
+import '../../ui/chunky_button.dart';
 import '../../ui/requirement_view.dart';
 import '../../ui/widgets.dart';
 
@@ -117,7 +118,13 @@ class LifeScreen extends ConsumerWidget {
                         if (!unlocked)
                           const StatusBadge(BadgeState.locked)
                         else
-                          FilledButton.tonal(
+                          ChunkyButton(
+                            label: enoughEnergy ? l.work : l.tooTiredShort,
+                            expand: false,
+                            height: 40,
+                            sfx: null,
+                            color: AppColors.amber,
+                            foreground: AppColors.background,
                             onPressed: enoughEnergy
                                 ? () {
                                     final err = ref.read(gameControllerProvider.notifier).work(job.id);
@@ -129,7 +136,6 @@ class LifeScreen extends ConsumerWidget {
                                     }
                                   }
                                 : null,
-                            child: Text(enoughEnergy ? l.work : l.tooTiredShort),
                           ),
                       ],
                     ),
@@ -181,6 +187,8 @@ class LifeScreen extends ConsumerWidget {
               ],
             ),
           ),
+          SectionHeader(l.settings),
+          const _SettingsCard(),
           SectionHeader(l.about),
           Text(l.aboutLine(c.contentVersion), style: t.bodySmall?.copyWith(color: AppColors.textMuted)),
           const SizedBox(height: 4),
@@ -216,4 +224,48 @@ class _Meter extends StatelessWidget {
       InfoButton(title: label, body: info),
     ],
   );
+}
+
+class _SettingsCard extends ConsumerWidget {
+  const _SettingsCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final a = ref.watch(gameControllerProvider.select((s) => s.account));
+    final game = ref.read(gameControllerProvider.notifier);
+    Widget row(IconData icon, String title, String? subtitle, bool value, ValueChanged<bool> onChanged) =>
+        SwitchListTile(
+          value: value,
+          onChanged: onChanged,
+          activeThumbColor: AppColors.mint,
+          contentPadding: const EdgeInsets.symmetric(horizontal: Space.m),
+          secondary: Icon(icon, color: AppColors.textMuted),
+          title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+          subtitle: subtitle == null
+              ? null
+              : Text(subtitle, style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
+        );
+    return AppCard(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        children: [
+          row(Icons.volume_up_rounded, l.settingSound, null, a.soundOn, game.setSound),
+          row(Icons.vibration_rounded, l.settingHaptics, null, a.hapticsOn, game.setHaptics),
+          row(
+            Icons.notifications_rounded,
+            l.settingNotifications,
+            l.settingNotificationsBody,
+            a.notificationsOptIn ?? false,
+            (v) async {
+              final granted = await game.setNotifications(v);
+              if (v && !granted && context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.notifyDenied)));
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

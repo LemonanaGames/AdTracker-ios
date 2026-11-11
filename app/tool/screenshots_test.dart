@@ -23,14 +23,19 @@ import 'package:influencer_simulator/domain/model/player_account.dart';
 import '../test/support/fixtures.dart';
 
 Future<void> _loadFonts() async {
-  const root = '/opt/flutter/bin/cache/artifacts/material_fonts';
-  final roboto = FontLoader('Roboto');
-  for (final w in ['Regular', 'Medium', 'Bold', 'Black']) {
-    roboto.addFont(Future.value(ByteData.sublistView(File('$root/Roboto-$w.ttf').readAsBytesSync())));
+  ByteData bytes(String path) => ByteData.sublistView(File(path).readAsBytesSync());
+  final display = FontLoader('BricolageGrotesque');
+  for (final w in [600, 700, 800]) {
+    display.addFont(Future.value(bytes('assets/fonts/BricolageGrotesque-$w.ttf')));
   }
-  await roboto.load();
+  await display.load();
+  final body = FontLoader('Inter');
+  for (final w in ['Regular', 'Medium', 'SemiBold', 'Bold']) {
+    body.addFont(Future.value(bytes('assets/fonts/Inter-$w.otf')));
+  }
+  await body.load();
   final icons = FontLoader('MaterialIcons')
-    ..addFont(Future.value(ByteData.sublistView(File('$root/MaterialIcons-Regular.otf').readAsBytesSync())));
+    ..addFont(Future.value(bytes('/opt/flutter/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf')));
   await icons.load();
 }
 
@@ -85,6 +90,7 @@ void main() {
             initialSessionProvider.overrideWithValue(session),
             clockProvider.overrideWithValue(FakeClock(t0 + 6 * 60 * 1000)),
             tickerEnabledProvider.overrideWithValue(false),
+            ambientMotionProvider.overrideWithValue(false),
           ],
           child: const InfluencerSimApp(),
         ),
@@ -109,6 +115,15 @@ void main() {
     await shot(tester, '03_create_top');
     await tester.drag(find.byType(Scrollable).first, const Offset(0, -1400));
     await shot(tester, '04_create_preview');
+
+    await tester.tap(find.text('Publish'));
+    await tester.pump(const Duration(milliseconds: 1200));
+    await tester.pump(const Duration(milliseconds: 600));
+    await shot(tester, '04b_published');
+    if (find.text("Let's go!").evaluate().isNotEmpty) await tester.tap(find.text("Let's go!"));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Make another post'));
+    await tester.pumpAndSettle();
 
     await tester.tap(find.text('Social').last);
     await shot(tester, '05_social');

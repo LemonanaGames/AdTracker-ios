@@ -40,6 +40,8 @@ jobs:
       - run: dart run tool/validate_content.dart
       - name: Balance smoke (15 lives × 60 min)
         run: dart run tool/simulate_lives.dart 15 60
+      - name: Web preview build
+        run: flutter build web --release --no-web-resources-cdn
 
   ios-build:
     name: iOS build (no codesign)

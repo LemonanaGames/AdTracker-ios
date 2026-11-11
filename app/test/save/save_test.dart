@@ -87,6 +87,25 @@ void main() {
       );
     });
 
+    test('account v1 saves migrate to v2 with feedback/notification defaults', () {
+      final v1 = jsonEncode({
+        'schemaVersion': 1,
+        'payload': {
+          'uid': 'u',
+          'createdAtMs': 1,
+          'activeLifeId': 'L',
+          'lifeCount': 1,
+          'seenTips': ['tip_followers'],
+        },
+      });
+      final a = SaveCodec.decodeAccount(v1);
+      expect(a.soundOn, isTrue);
+      expect(a.hapticsOn, isTrue);
+      expect(a.notificationsOptIn, isNull);
+      expect(a.sessionHours, isEmpty);
+      expect(a.seenTips, {'tip_followers'});
+    });
+
     test('account round-trips', () {
       const a = PlayerAccount(
         uid: 'local-1',
@@ -94,6 +113,9 @@ void main() {
         activeLifeId: 'L',
         lifeCount: 2,
         seenTips: {'tip_followers'},
+        soundOn: false,
+        notificationsOptIn: true,
+        sessionHours: [9, 21],
       );
       final b = SaveCodec.decodeAccount(SaveCodec.encodeAccount(a));
       expect(b.toJson(), a.toJson());

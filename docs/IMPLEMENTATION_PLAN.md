@@ -41,6 +41,7 @@ Non-blocking for M0–M3; blocking where noted.
 |---|---|
 | M0 — foundation | ✅ done (this change) |
 | M1 — playable core | ✅ done (this change) — see report below |
+| M1.5 — feel & retention pass (owner request) | ✅ done — see §5 |
 | M2 — multi-network + sponsor rules | ⏭ next |
 | M3 — narrative / life / endings / archive | not started |
 | M4 — Firebase, sync, Remote Config, Crashlytics, Singular | not started (needs credentials) |
@@ -136,3 +137,44 @@ None for M0–M3. For M4+: Firebase plist, Singular keys, RevenueCat API key + A
 5. Story events S01–S03 hooked to sponsor state with real callbacks.
 6. Per-network follower growth chart and old-post compaction keeping saves bounded (test: 2,000 posts → save < 300 KB).
 7. All of the above covered by unit tests + one widget test (accept → fulfil → collect).
+
+---
+
+## 5. M1.5 report — feel & retention pass (owner request, between M1 and M2)
+
+The owner asked for a less generic, more animated look, sound effects, smart reminders and a
+build they could play. This pulls part of M6 (polish) and M6 (local notifications) forward.
+
+### 5.1 Implemented
+- **Visual identity:** bundled OFL fonts (Bricolage Grotesque for display, Inter for body),
+  procedural flat-illustration characters for avatars and NPCs (`ui/characters.dart`), sticker-style
+  icon tiles and labels, tactile "chunky" game buttons (`ui/chunky_button.dart`), a custom nav bar
+  with a raised Create button, thumbnail-style topic cards, an animated quality gauge and a followers
+  sparkline rebuilt exactly from post curves (`domain/engine/history.dart`).
+- **Motion:** staggered card entrances, floating "+N" deltas on followers and cash, drifting
+  gradient hero, live pulse dots, an upload ring and confetti on publish, chat messages with a
+  typing indicator, full-screen celebrations (level up, network unlock, milestone, new act) with
+  rays, queued so they never stack. Everything is static under Reduce Motion, and continuous motion
+  can be disabled (`ambientMotionProvider`).
+- **Sound and haptics:** 9 original synthesized SFX (`tools/sfx_synth/make_sfx.py`), played with
+  low latency through an ambient iOS audio session (respects the silent switch and mixes with
+  music). Haptics are mapped per event in one place (`reactToEvent`), with settings toggles for both.
+- **Smart reminders:** see [`notifications.md`](notifications.md). A pure planner that projects
+  real outcomes, with a contextual opt-in after the first post, quiet hours, at most 3 per
+  absence, a learned daily hour and a settings toggle.
+- **Web preview build:** `flutter build web` now works (browser-storage saves, no-op notifications),
+  for playtesting in a browser.
+- Account save schema v2 (sound, haptics, opt-in, session hours) with a v1→v2 migration and tests.
+
+### 5.2 Tested
+`flutter analyze`: clean. `flutter test`: 61 passing. The web build ran a scripted playthrough in
+headless Chromium (onboarding → Home → Create) with no console errors.
+**Not verified:** iOS and Android device builds, notification delivery on a device, and audio
+latency on a device.
+
+### 5.3 Risks
+- The display font gives the game its personality. Check its licence and fit with the art direction
+  when final art arrives.
+- Celebrations can appear over the publish result sheet when a post also levels you up. This is
+  intentional for now; revisit in playtests.
+- The Inter OTFs add about 2.4 MB. Subset them before release.

@@ -10,6 +10,8 @@ import '../domain/engine/game_event.dart';
 import '../domain/repositories/save_repository.dart';
 import 'game_controller.dart';
 import 'game_session.dart';
+import 'services/notification_service.dart';
+import 'services/sound_service.dart';
 
 /// Overridden in bootstrap (loaded before runApp) and in tests.
 final catalogProvider = Provider<GameCatalog>((ref) => throw UnimplementedError('catalogProvider not overridden'));
@@ -29,6 +31,19 @@ final idGeneratorProvider = Provider<String Function()>(
   (ref) =>
       () => const Uuid().v4(),
 );
+
+final soundServiceProvider = Provider<SoundService>((ref) => const NoopSoundService());
+final notificationSchedulerProvider = Provider<NotificationScheduler>((ref) => NoopNotificationScheduler());
+
+/// Local hour (0–23) of an epoch instant — injectable for deterministic tests.
+final localHourProvider = Provider<int Function(int epochMs)>(
+  (ref) =>
+      (ms) => DateTime.fromMillisecondsSinceEpoch(ms).hour,
+);
+
+/// Continuous decorative motion (drifting gradients, pulses). Off in tests so
+/// `pumpAndSettle` can settle; always off when the OS asks to reduce motion.
+final ambientMotionProvider = Provider<bool>((ref) => true);
 
 /// Whether the 1-second foreground simulation ticker runs (off in some tests).
 final tickerEnabledProvider = Provider<bool>((ref) => true);

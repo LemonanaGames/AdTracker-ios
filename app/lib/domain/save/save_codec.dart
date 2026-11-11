@@ -20,11 +20,14 @@ final class SaveFormatException implements Exception {
 /// is rejected (never silently truncated).
 abstract final class SaveCodec {
   static const lifeSchemaVersion = 1;
-  static const accountSchemaVersion = 1;
+  static const accountSchemaVersion = 2;
 
   /// `fromVersion -> transform` for life payloads. Add entries, never edit.
   static final Map<int, Migration> lifeMigrations = {};
-  static final Map<int, Migration> accountMigrations = {};
+  static final Map<int, Migration> accountMigrations = {
+    // v1 → v2: feedback + notification preferences (defaults: on / not asked).
+    1: (p) => {...p, 'soundOn': true, 'hapticsOn': true, 'notificationsOptIn': null, 'sessionHours': <int>[]},
+  };
 
   static String encodeLife(LifeState life) =>
       jsonEncode({'schemaVersion': lifeSchemaVersion, 'payload': life.toJson()});

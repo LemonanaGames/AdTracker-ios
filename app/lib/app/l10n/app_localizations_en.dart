@@ -212,11 +212,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get collect => 'Collect';
 
   @override
-  String collected(String amount) {
-    return 'Collected $amount!';
-  }
-
-  @override
   String get totalFollowersAcross => 'Total followers across networks';
 
   @override
@@ -635,16 +630,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String celebrateLevelUp(int level) {
-    return 'Level up! Creator Level $level · +1 Skill Point';
-  }
-
-  @override
-  String celebrateUnlocked(String network) {
-    return '$network unlocked! Try it in Create.';
-  }
-
-  @override
   String celebrateMilestone(String count, String network) {
     return '$count followers on $network!';
   }
@@ -733,4 +718,123 @@ class AppLocalizationsEn extends AppLocalizations {
   String reqGeneric(int current, int target) {
     return '$current / $target';
   }
+
+  @override
+  String get live => 'Live';
+
+  @override
+  String get qualityOutOf => 'out of 100';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get settingSound => 'Sound effects';
+
+  @override
+  String get settingHaptics => 'Vibration';
+
+  @override
+  String get settingNotifications => 'Reminders';
+
+  @override
+  String get settingNotificationsBody =>
+      'When a post finishes or something is ready. At most 3 while you are away, never at night.';
+
+  @override
+  String get notifyAskTitle => 'Want a heads-up when this post finishes?';
+
+  @override
+  String get notifyAskBody => 'We\'ll tell you how it did. At most 3 reminders while you\'re away, never at night.';
+
+  @override
+  String get notifyYes => 'Notify me';
+
+  @override
+  String get notifyNo => 'Not now';
+
+  @override
+  String get notifyDenied => 'Notifications are off for this app. You can turn them on in your phone settings.';
+
+  @override
+  String celebrateLevelTitle(int level) {
+    return 'Level $level!';
+  }
+
+  @override
+  String get celebrateLevelBody => '+1 Skill Point. Spend it in Life → Skills to make better posts.';
+
+  @override
+  String celebrateUnlockTitle(String network) {
+    return '$network unlocked!';
+  }
+
+  @override
+  String get celebrateMilestoneBody => 'People are noticing you. Keep posting to grow even faster.';
+
+  @override
+  String get celebrateActBody => 'A new chapter of your story begins.';
+
+  @override
+  String get celebrateNice => 'Let\'s go!';
+
+  @override
+  String get celebrateNext => 'Next';
+
+  @override
+  String notifPostTitle(String topic) {
+    return 'Your \"$topic\" post wrapped up';
+  }
+
+  @override
+  String notifPostBody(String views, String followers, String network) {
+    return '$views views and +$followers followers on $network. Come see how it did.';
+  }
+
+  @override
+  String notifMilestoneTitle(String count, String network) {
+    return '$count followers on $network!';
+  }
+
+  @override
+  String get notifMilestoneBody => 'You just crossed a milestone. Your next goal is waiting.';
+
+  @override
+  String notifGearTitle(String item) {
+    return 'You can afford the $item now';
+  }
+
+  @override
+  String get notifGearBody => 'Your earnings cover it. Better gear means better posts.';
+
+  @override
+  String get notifEnergyTitle => 'Energy\'s full';
+
+  @override
+  String get notifEnergyBody => 'You\'re rested and ready to film something new.';
+
+  @override
+  String notifStoryTitle(String name) {
+    return '$name sent you a message';
+  }
+
+  @override
+  String get notifStoryBody => 'Something happened with your posts. Tap to read it.';
+
+  @override
+  String notifAwayTitle(String amount) {
+    return '$amount is ready to collect';
+  }
+
+  @override
+  String get notifAwayBody => 'Your posts kept earning while you were away.';
+
+  @override
+  String get notifDailyTitle => 'Ready for today\'s post?';
+
+  @override
+  String get notifDailyBody => 'New trends every game day. See what is hot right now.';
+
+  @override
+  String get zeroFollowers => '0 followers';
 }

@@ -41,6 +41,17 @@ dart run tool/validate_content.dart
 dart run tool/simulate_lives.dart 45 180
 dart run build_runner build --delete-conflicting-outputs && flutter gen-l10n   # after DB/ARB changes
 SHOT_DIR=/tmp/shots flutter test tool/screenshots_test.dart                    # render screens to PNG
+flutter build web --release --no-web-resources-cdn                             # browser preview build
+python3 ../tools/sfx_synth/make_sfx.py assets/sfx                              # regenerate sound effects
 ```
+
+## Feel layer
+
+- Sounds and haptics go through `GameController.feedback(...)`, which honours settings. Map events to
+  juice in one place: `reactToEvent` (`features/celebrations/celebration_overlay.dart`).
+- Every animation must have a static Reduce Motion path. Continuous loops must also check
+  `ambientMotion(...)`, and widget tests override `ambientMotionProvider` to false so that
+  `pumpAndSettle` settles.
+- Reminders: change rules in `NotificationPlanner` (pure, tested), not in the UI. See `docs/notifications.md`.
 
 Formatting uses a 120-column page width (generated files are excluded).

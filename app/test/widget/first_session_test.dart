@@ -30,6 +30,7 @@ void main() {
           clockProvider.overrideWithValue(clock),
           idGeneratorProvider.overrideWithValue(newId),
           tickerEnabledProvider.overrideWithValue(false),
+          ambientMotionProvider.overrideWithValue(false),
         ],
         child: const InfluencerSimApp(),
       ),
@@ -83,7 +84,7 @@ void main() {
 
     // Create: first-challenge topic is preselected and highlighted; publish.
     await tapText(tester, 'Create Post');
-    expect(find.text('Start here'), findsOneWidget);
+    expect(find.text('START HERE'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('Publish'), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text('38'), findsWidgets, reason: 'first post quality 38/100');
     await tapText(tester, 'Publish');

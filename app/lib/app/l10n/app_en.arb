@@ -111,14 +111,6 @@
   },
   "earningsReady": "Earnings ready",
   "collect": "Collect",
-  "collected": "Collected {amount}!",
-  "@collected": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "totalFollowersAcross": "Total followers across networks",
   "totalFollowersInfo": "This adds up your followers on Loop, TubeCast and Vibe. Some people follow you in more than one place, so it is not the number of different people. \"Estimated unique reach\" is our modeled guess of different people.",
   "uniqueReach": "Estimated unique reach ≈ {count} (modeled)",
@@ -573,22 +565,6 @@
       }
     }
   },
-  "celebrateLevelUp": "Level up! Creator Level {level} · +1 Skill Point",
-  "@celebrateLevelUp": {
-    "placeholders": {
-      "level": {
-        "type": "int"
-      }
-    }
-  },
-  "celebrateUnlocked": "{network} unlocked! Try it in Create.",
-  "@celebrateUnlocked": {
-    "placeholders": {
-      "network": {
-        "type": "String"
-      }
-    }
-  },
   "celebrateMilestone": "{count} followers on {network}!",
   "@celebrateMilestone": {
     "placeholders": {
@@ -758,5 +734,104 @@
         "type": "int"
       }
     }
-  }
+  },
+  "live": "Live",
+  "qualityOutOf": "out of 100",
+  "settings": "Settings",
+  "settingSound": "Sound effects",
+  "settingHaptics": "Vibration",
+  "settingNotifications": "Reminders",
+  "settingNotificationsBody": "When a post finishes or something is ready. At most 3 while you are away, never at night.",
+  "notifyAskTitle": "Want a heads-up when this post finishes?",
+  "notifyAskBody": "We'll tell you how it did. At most 3 reminders while you're away, never at night.",
+  "notifyYes": "Notify me",
+  "notifyNo": "Not now",
+  "notifyDenied": "Notifications are off for this app. You can turn them on in your phone settings.",
+  "celebrateLevelTitle": "Level {level}!",
+  "@celebrateLevelTitle": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "celebrateLevelBody": "+1 Skill Point. Spend it in Life → Skills to make better posts.",
+  "celebrateUnlockTitle": "{network} unlocked!",
+  "@celebrateUnlockTitle": {
+    "placeholders": {
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "celebrateMilestoneBody": "People are noticing you. Keep posting to grow even faster.",
+  "celebrateActBody": "A new chapter of your story begins.",
+  "celebrateNice": "Let's go!",
+  "celebrateNext": "Next",
+  "notifPostTitle": "Your \"{topic}\" post wrapped up",
+  "@notifPostTitle": {
+    "placeholders": {
+      "topic": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPostBody": "{views} views and +{followers} followers on {network}. Come see how it did.",
+  "@notifPostBody": {
+    "placeholders": {
+      "views": {
+        "type": "String"
+      },
+      "followers": {
+        "type": "String"
+      },
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "notifMilestoneTitle": "{count} followers on {network}!",
+  "@notifMilestoneTitle": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "network": {
+        "type": "String"
+      }
+    }
+  },
+  "notifMilestoneBody": "You just crossed a milestone. Your next goal is waiting.",
+  "notifGearTitle": "You can afford the {item} now",
+  "@notifGearTitle": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "notifGearBody": "Your earnings cover it. Better gear means better posts.",
+  "notifEnergyTitle": "Energy's full",
+  "notifEnergyBody": "You're rested and ready to film something new.",
+  "notifStoryTitle": "{name} sent you a message",
+  "@notifStoryTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifStoryBody": "Something happened with your posts. Tap to read it.",
+  "notifAwayTitle": "{amount} is ready to collect",
+  "@notifAwayTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notifAwayBody": "Your posts kept earning while you were away.",
+  "notifDailyTitle": "Ready for today's post?",
+  "notifDailyBody": "New trends every game day. See what is hot right now.",
+  "zeroFollowers": "0 followers"
 }

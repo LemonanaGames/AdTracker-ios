@@ -9,6 +9,15 @@ check that:
 - every content `assetKey` exists in the manifest (`CatalogValidator`)
 - every manifest icon name resolves to a bundled Material icon (`test/content/content_test.dart`)
 
+## Other shipped assets
+
+- **Characters** (avatars and NPCs) are drawn procedurally by `CharacterAvatar` (`app/lib/ui/characters.dart`).
+  They are original vectors, still treated as placeholders until art is approved.
+- **Sound effects** (`app/assets/sfx/*.wav`) are synthesized by `tools/sfx_synth/make_sfx.py` (standard
+  library only, deterministic), so there are no third-party audio licences.
+- **Fonts** (`app/assets/fonts/`): Bricolage Grotesque and Inter, both under the SIL Open Font Licence
+  (licence texts included next to the files).
+
 ## Replacing a placeholder with final art
 
 1. Add the optimised file (WebP/PNG) under `app/assets/art/…` and register the folder in `pubspec.yaml`.

@@ -8,6 +8,7 @@ import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../domain/model/ids.dart';
 import '../../ui/asset_art.dart';
+import '../../ui/chunky_button.dart';
 import '../../ui/requirement_view.dart';
 import '../../ui/widgets.dart';
 
@@ -111,7 +112,11 @@ class _SocialScreenState extends ConsumerState<SocialScreen> {
                   children: [
                     Text(l.noPostsYet, style: t.bodyLarge),
                     const SizedBox(height: Space.s),
-                    FilledButton(onPressed: () => context.go(Routes.create), child: Text(l.createPost)),
+                    ChunkyButton(
+                      label: l.createPost,
+                      color: AppColors.coral,
+                      onPressed: () => context.go(Routes.create),
+                    ),
                   ],
                 ),
               ),

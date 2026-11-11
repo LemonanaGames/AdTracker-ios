@@ -27,6 +27,8 @@ anyone relies on the data (GDD Part J rule 8).
 | `relationship_changed` | engine | `npc_id`, `delta` |
 | `clock_rollback_detected` | engine | `delta_ms` |
 | `save_failed` | controller | `error` (type name only) |
+| `notifications_opt_in` | settings / first-post ask | `requested`, `granted` |
+| `notification_scheduled` | on leaving the app | `kind` |
 
 ## Rules
 

@@ -8,6 +8,10 @@ final class PlayerAccount {
     this.lifeCount = 0,
     this.seenTips = const {},
     this.entitlementIds = const {},
+    this.soundOn = true,
+    this.hapticsOn = true,
+    this.notificationsOptIn,
+    this.sessionHours = const [],
   });
 
   final String uid;
@@ -21,14 +25,42 @@ final class PlayerAccount {
   /// Server-verified entitlements mirror (always empty until M5).
   final Set<String> entitlementIds;
 
-  PlayerAccount copyWith({String? activeLifeId, int? lifeCount, Set<String>? seenTips}) => PlayerAccount(
+  final bool soundOn;
+  final bool hapticsOn;
+
+  /// null = never asked; true/false = the player's explicit answer.
+  final bool? notificationsOptIn;
+
+  /// Local hours (0–23) of the most recent session starts (max 7). Used to
+  /// time the single daily reminder to when this player actually plays.
+  final List<int> sessionHours;
+
+  PlayerAccount copyWith({
+    String? activeLifeId,
+    int? lifeCount,
+    Set<String>? seenTips,
+    bool? soundOn,
+    bool? hapticsOn,
+    bool? notificationsOptIn,
+    List<int>? sessionHours,
+  }) => PlayerAccount(
     uid: uid,
     createdAtMs: createdAtMs,
     activeLifeId: activeLifeId ?? this.activeLifeId,
     lifeCount: lifeCount ?? this.lifeCount,
     seenTips: seenTips ?? this.seenTips,
     entitlementIds: entitlementIds,
+    soundOn: soundOn ?? this.soundOn,
+    hapticsOn: hapticsOn ?? this.hapticsOn,
+    notificationsOptIn: notificationsOptIn ?? this.notificationsOptIn,
+    sessionHours: sessionHours ?? this.sessionHours,
   );
+
+  /// Records a session start hour, keeping the last 7.
+  PlayerAccount withSessionHour(int hour) {
+    final hours = [...sessionHours, hour];
+    return copyWith(sessionHours: hours.length > 7 ? hours.sublist(hours.length - 7) : hours);
+  }
 
   Map<String, Object?> toJson() => {
     'uid': uid,
@@ -37,6 +69,10 @@ final class PlayerAccount {
     'lifeCount': lifeCount,
     'seenTips': seenTips.toList()..sort(),
     'entitlementIds': entitlementIds.toList()..sort(),
+    'soundOn': soundOn,
+    'hapticsOn': hapticsOn,
+    'notificationsOptIn': notificationsOptIn,
+    'sessionHours': sessionHours,
   };
 
   factory PlayerAccount.fromJson(Map<String, Object?> j) => PlayerAccount(
@@ -46,5 +82,9 @@ final class PlayerAccount {
     lifeCount: j['lifeCount'] as int? ?? 0,
     seenTips: {...((j['seenTips'] as List?) ?? const []).cast<String>()},
     entitlementIds: {...((j['entitlementIds'] as List?) ?? const []).cast<String>()},
+    soundOn: j['soundOn']! as bool,
+    hapticsOn: j['hapticsOn']! as bool,
+    notificationsOptIn: j['notificationsOptIn'] as bool?,
+    sessionHours: [...((j['sessionHours'] as List?) ?? const []).cast<int>()],
   );
 }

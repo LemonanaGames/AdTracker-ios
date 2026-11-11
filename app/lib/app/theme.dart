@@ -18,6 +18,13 @@ abstract final class AppColors {
   static Color hex(String hex) => Color(int.parse(hex.substring(1), radix: 16) | 0xFF000000);
 }
 
+/// Bundled OFL fonts (assets/fonts): a characterful grotesque for display,
+/// Inter for reading.
+abstract final class AppFonts {
+  static const display = 'BricolageGrotesque';
+  static const body = 'Inter';
+}
+
 /// 8pt spacing grid and radii.
 abstract final class Space {
   static const xs = 4.0;
@@ -42,22 +49,42 @@ ThemeData buildTheme() {
     outline: AppColors.outline,
     error: AppColors.coral,
   );
-  final base = ThemeData(useMaterial3: true, colorScheme: scheme, brightness: Brightness.dark);
-  final text = base.textTheme.apply(bodyColor: AppColors.text, displayColor: AppColors.text);
+  final base = ThemeData(
+    useMaterial3: true,
+    colorScheme: scheme,
+    brightness: Brightness.dark,
+    fontFamily: AppFonts.body,
+  );
+  final t = base.textTheme.apply(bodyColor: AppColors.text, displayColor: AppColors.text);
+  TextStyle? display(TextStyle? s, FontWeight w, [double spacing = -0.5]) =>
+      s?.copyWith(fontFamily: AppFonts.display, fontWeight: w, letterSpacing: spacing, height: 1.05);
+  final text = t.copyWith(
+    displayLarge: display(t.displayLarge, FontWeight.w800, -1.5),
+    displayMedium: display(t.displayMedium, FontWeight.w800, -1.2),
+    displaySmall: display(t.displaySmall, FontWeight.w800, -1),
+    headlineLarge: display(t.headlineLarge, FontWeight.w800),
+  );
   return base.copyWith(
     scaffoldBackgroundColor: AppColors.background,
     textTheme: text.copyWith(
-      headlineMedium: text.headlineMedium?.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.5),
-      headlineSmall: text.headlineSmall?.copyWith(fontWeight: FontWeight.w800, letterSpacing: -0.3),
-      titleLarge: text.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-      titleMedium: text.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+      headlineMedium: display(text.headlineMedium, FontWeight.w800),
+      headlineSmall: display(text.headlineSmall, FontWeight.w800, -0.3),
+      titleLarge: display(text.titleLarge, FontWeight.w700, -0.2),
+      titleMedium: text.titleMedium?.copyWith(fontWeight: FontWeight.w700, letterSpacing: -0.1),
       labelLarge: text.labelLarge?.copyWith(fontWeight: FontWeight.w700),
     ),
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: AppColors.background,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
       centerTitle: false,
+      titleTextStyle: const TextStyle(
+        fontFamily: AppFonts.display,
+        fontWeight: FontWeight.w800,
+        fontSize: 28,
+        letterSpacing: -0.6,
+        color: AppColors.text,
+      ),
     ),
     cardTheme: const CardThemeData(
       color: AppColors.surface,

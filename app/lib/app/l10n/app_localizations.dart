@@ -463,12 +463,6 @@ abstract class AppLocalizations {
   /// **'Collect'**
   String get collect;
 
-  /// No description provided for @collected.
-  ///
-  /// In en, this message translates to:
-  /// **'Collected {amount}!'**
-  String collected(String amount);
-
   /// No description provided for @totalFollowersAcross.
   ///
   /// In en, this message translates to:
@@ -1123,18 +1117,6 @@ abstract class AppLocalizations {
   /// **'Next {uses} posts: +{bonus} quality'**
   String fxQualityBonus(int bonus, int uses);
 
-  /// No description provided for @celebrateLevelUp.
-  ///
-  /// In en, this message translates to:
-  /// **'Level up! Creator Level {level} · +1 Skill Point'**
-  String celebrateLevelUp(int level);
-
-  /// No description provided for @celebrateUnlocked.
-  ///
-  /// In en, this message translates to:
-  /// **'{network} unlocked! Try it in Create.'**
-  String celebrateUnlocked(String network);
-
   /// No description provided for @celebrateMilestone.
   ///
   /// In en, this message translates to:
@@ -1254,6 +1236,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{current} / {target}'**
   String reqGeneric(int current, int target);
+
+  /// No description provided for @live.
+  ///
+  /// In en, this message translates to:
+  /// **'Live'**
+  String get live;
+
+  /// No description provided for @qualityOutOf.
+  ///
+  /// In en, this message translates to:
+  /// **'out of 100'**
+  String get qualityOutOf;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @settingSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound effects'**
+  String get settingSound;
+
+  /// No description provided for @settingHaptics.
+  ///
+  /// In en, this message translates to:
+  /// **'Vibration'**
+  String get settingHaptics;
+
+  /// No description provided for @settingNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get settingNotifications;
+
+  /// No description provided for @settingNotificationsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'When a post finishes or something is ready. At most 3 while you are away, never at night.'**
+  String get settingNotificationsBody;
+
+  /// No description provided for @notifyAskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Want a heads-up when this post finishes?'**
+  String get notifyAskTitle;
+
+  /// No description provided for @notifyAskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll tell you how it did. At most 3 reminders while you\'re away, never at night.'**
+  String get notifyAskBody;
+
+  /// No description provided for @notifyYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify me'**
+  String get notifyYes;
+
+  /// No description provided for @notifyNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notifyNo;
+
+  /// No description provided for @notifyDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off for this app. You can turn them on in your phone settings.'**
+  String get notifyDenied;
+
+  /// No description provided for @celebrateLevelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level}!'**
+  String celebrateLevelTitle(int level);
+
+  /// No description provided for @celebrateLevelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'+1 Skill Point. Spend it in Life → Skills to make better posts.'**
+  String get celebrateLevelBody;
+
+  /// No description provided for @celebrateUnlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{network} unlocked!'**
+  String celebrateUnlockTitle(String network);
+
+  /// No description provided for @celebrateMilestoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'People are noticing you. Keep posting to grow even faster.'**
+  String get celebrateMilestoneBody;
+
+  /// No description provided for @celebrateActBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A new chapter of your story begins.'**
+  String get celebrateActBody;
+
+  /// No description provided for @celebrateNice.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s go!'**
+  String get celebrateNice;
+
+  /// No description provided for @celebrateNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get celebrateNext;
+
+  /// No description provided for @notifPostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your \"{topic}\" post wrapped up'**
+  String notifPostTitle(String topic);
+
+  /// No description provided for @notifPostBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{views} views and +{followers} followers on {network}. Come see how it did.'**
+  String notifPostBody(String views, String followers, String network);
+
+  /// No description provided for @notifMilestoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} followers on {network}!'**
+  String notifMilestoneTitle(String count, String network);
+
+  /// No description provided for @notifMilestoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You just crossed a milestone. Your next goal is waiting.'**
+  String get notifMilestoneBody;
+
+  /// No description provided for @notifGearTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You can afford the {item} now'**
+  String notifGearTitle(String item);
+
+  /// No description provided for @notifGearBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your earnings cover it. Better gear means better posts.'**
+  String get notifGearBody;
+
+  /// No description provided for @notifEnergyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy\'s full'**
+  String get notifEnergyTitle;
+
+  /// No description provided for @notifEnergyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re rested and ready to film something new.'**
+  String get notifEnergyBody;
+
+  /// No description provided for @notifStoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} sent you a message'**
+  String notifStoryTitle(String name);
+
+  /// No description provided for @notifStoryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Something happened with your posts. Tap to read it.'**
+  String get notifStoryBody;
+
+  /// No description provided for @notifAwayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} is ready to collect'**
+  String notifAwayTitle(String amount);
+
+  /// No description provided for @notifAwayBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your posts kept earning while you were away.'**
+  String get notifAwayBody;
+
+  /// No description provided for @notifDailyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for today\'s post?'**
+  String get notifDailyTitle;
+
+  /// No description provided for @notifDailyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'New trends every game day. See what is hot right now.'**
+  String get notifDailyBody;
+
+  /// No description provided for @zeroFollowers.
+  ///
+  /// In en, this message translates to:
+  /// **'0 followers'**
+  String get zeroFollowers;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

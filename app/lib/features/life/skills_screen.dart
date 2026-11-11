@@ -6,6 +6,7 @@ import '../../app/providers.dart';
 import '../../app/theme.dart';
 import '../../domain/content/game_catalog.dart';
 import '../../ui/asset_art.dart';
+import '../../ui/chunky_button.dart';
 import '../../ui/widgets.dart';
 
 /// Six skills, one clear effect each, always with a Before → After preview.
@@ -85,11 +86,14 @@ class SkillsScreen extends ConsumerWidget {
                             else if (maxed)
                               const StatusBadge(BadgeState.done)
                             else
-                              FilledButton.tonal(
+                              ChunkyButton(
+                                label: l.plusOne,
+                                expand: false,
+                                height: 40,
+                                sfx: null,
                                 onPressed: life.skillPoints > 0
                                     ? () => ref.read(gameControllerProvider.notifier).spendSkillPoint(s.id)
                                     : null,
-                                child: Text(l.plusOne),
                               ),
                           ],
                         ),

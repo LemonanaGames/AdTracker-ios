@@ -5,6 +5,7 @@ import '../../app/format.dart';
 import '../../app/providers.dart';
 import '../../app/theme.dart';
 import '../../ui/asset_art.dart';
+import '../../ui/chunky_button.dart';
 import '../../ui/requirement_view.dart';
 import '../../ui/widgets.dart';
 
@@ -71,7 +72,13 @@ class GearScreen extends ConsumerWidget {
                         else if (!unlocked)
                           const StatusBadge(BadgeState.locked)
                         else
-                          FilledButton(
+                          ChunkyButton(
+                            label: Format.cash(g.costMinor),
+                            expand: false,
+                            height: 40,
+                            sfx: null,
+                            color: AppColors.mint,
+                            foreground: AppColors.background,
                             onPressed: affordable
                                 ? () {
                                     if (ref.read(gameControllerProvider.notifier).buyGear(g.id) == null) {
@@ -80,7 +87,6 @@ class GearScreen extends ConsumerWidget {
                                     }
                                   }
                                 : null,
-                            child: Text(Format.cash(g.costMinor)),
                           ),
                       ],
                     ),
